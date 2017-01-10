@@ -1,0 +1,95 @@
+{% extends 'EnterpriseBundle:Default:template.html.twig' %}
+{% block content %}
+    <div class="workers">
+        <div class="navigation">
+            <div class="href active">Общие сведения</div>
+            <div class="href">Паспортные данные</div>
+            <div class="href">Образование</div>
+            <div class="href">Квалификация</div>
+        </div>
+        <div class="clear"></div>
+
+        <div class="row1">
+            <div class="cont">
+                <form action="#" class="worker_form">
+                    <div class="photoblock">
+                        <img src="{{ asset('/images/worker.jpg') }}" alt="">
+                        <div class="file">Выбрать</div>
+                        <input type="file">
+                    </div>
+                    <div class="main_info">
+                        <div class="input">
+                            <input type="text" name="firstname" placeholder="Фамилия">
+                            <input type="text" name="name" placeholder="Имя">
+                            <input type="text" name="lastname" placeholder="Отчество">
+                            <input type="text" name="hired" placeholder="Принят на работу">
+                            <input type="text" name="outfit" placeholder="Подразделение">
+                            <input type="text" name="vacancy" placeholder="Должность">
+                            <input type="text" name="phone" placeholder="Телефон">
+                            <input type="text" name="innerphone" placeholder="Внутренний номер">
+                        </div>
+                        <div class="label">
+                            <label for="firstname">Фамилия</label>
+                            <label for="name">Имя</label>
+                            <label for="lastname">Отчество</label>
+                            <label for="hired">Принят</label>
+                            <label for="outfit">Подразделение</label>
+                            <label for="vacancy">Должность</label>
+                            <label for="phone">Телефон</label>
+                            <label for="innerphone">Внутренний номер</label>
+                        </div>
+                        <div class="input status">
+                            <input type="text" name="office" placeholder="Головной">
+                            <input type="text" name="stage" placeholder="3">
+                            <input type="text" name="room" placeholder="12">
+                            <select name="status" id="">
+                                <option value="">На работе</option>
+                                <option value="">На больничном</option>
+                                <option value="">В отпуске</option>
+                            </select>
+                        </div>
+                        <div class="label">
+                            <label for="office">Офис</label>
+                            <label for="stage">Этаж</label>
+                            <label for="room">Кабинет</label>
+                            <label for="status">Статус</label>
+                        </div>
+                    </div>
+
+                    <div class="long_fields main_info">
+                        <div class="input">
+                            <input type="text" name="" placeholder="Дополнительно">
+                            <input type="text" name="" placeholder="Дополнительно">
+                            <input type="text" name="" placeholder="Дополнительно">
+                            <input type="text" name="" placeholder="Дополнительно">
+                            <input type="text" name="" placeholder="Дополнительно">
+                            <input type="text" name="" placeholder="Дополнительно">
+                            <input type="text" name="" placeholder="Дополнительно">
+                            <input type="text" name="" placeholder="Дополнительно">
+                        </div>
+                        <div class="label">
+                            <label for="">Дополнительно</label>
+                            <label for="">Дополнительно</label>
+                            <label for="">Дополнительно</label>
+                            <label for="">Дополнительно</label>
+                            <label for="">Дополнительно</label>
+                            <label for="">Дополнительно</label>
+                            <label for="">Дополнительно</label>
+                            <label for="">Дополнительно</label>
+                        </div>
+
+                    </div>
+                    <div class="clear"></div>
+                    <input type="submit" value="Сохранить">
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block script %}
+    {{ parent() }}
+    {% javascripts '@EnterpriseBundle/Resources/public/js/workers.js' %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}

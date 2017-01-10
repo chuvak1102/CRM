@@ -1,0 +1,21 @@
+{% for i in messages %}
+    {% if i.message is not empty %}
+        {% if app.user.username in i.getHidden %}
+        {% else %}
+            <div class="message" id="{{ i.id }}message">
+                <div class="outgoing">
+                    {{ i.message }}
+                    <span>{{ i.created | date('H:i') }}</span>
+                    <div class="message_from">{{ i.getAuthorName }}</div>
+                    <div class="edit_icon"></div>
+                    {% if app.user.username in i.getImportant %}
+                        <div class="important_message"></div>
+                    {% else %}
+                    {% endif %}
+                    <img src="{{ asset('images/default_avatar.png') }}" alt="" class="user_avatar">
+                </div>
+            </div>
+        {% endif %}
+    {% else %}
+    {% endif %}
+{% endfor %}

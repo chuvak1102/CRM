@@ -1,0 +1,12 @@
+enterprise_topic:
+    channel: topic/channel
+    handler:
+        callback: 'enterprise.topic' #related to the getName() of your topic
+
+enterprise_rpc:
+    channel: sample/{method}
+    handler:
+        callback: 'enterprise.rpc' #related to the getName() or your RPC service
+    requirements:
+        method:
+            pattern: "[a-z_]+"

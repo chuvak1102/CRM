@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    {% block stylesheets %}
+        {% stylesheets '@EnterpriseBundle/Resources/public/css/*' filter='cssrewrite' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+        {% endstylesheets %}
+    {% endblock %}
+</head>
+<body>
+<div class="wrapper">
+    <div class="menu" id="menu">
+        <a id="home_page" class="active" href="/" title="Главная"></a>
+        <div id="messages_page" title="Группы"></div>
+        <div id="calendar_page" title="Календарь"></div>
+        <div id="search_page" title="Поиск"></div>
+        <div id="important_page" title="Важно"></div>
+        <div id="recycle_page" title="Корзина"></div>
+        <div id="delivery_page" title="Водители/Поставки"></div>
+        <div id="workers_page" title="Персонал"></div>
+        <div id="card_page" title="Карточка сотрудника"></div>
+        <div id="documents_page" title="Документы"></div>
+        <div id="settings_page" title="Настройки системы"></div>
+    </div>
+    <div class="background" id="background">
+        <div class="content" id="content">
+            <div class="index_page">
+                <div class="template">
+                    <div class="cont">
+                        <h3>{{ user }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{#{{ dump() }}#}
+{% block script %}
+    {% javascripts
+    '@EnterpriseBundle/Resources/public/js/01_jquery.js'
+    '@EnterpriseBundle/Resources/public/js/02_jquery-ui.js'
+    '@EnterpriseBundle/Resources/public/js/03_jquery.mousewheel.js'
+    '@EnterpriseBundle/Resources/public/js/04_jquery.jscrollpane.min.js'
+    '@EnterpriseBundle/Resources/public/js/05_session.js'
+    '@EnterpriseBundle/Resources/public/js/menu.js'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    {{ ws_client() }}
+    <script>
+        function getUser(){
+            return "{{ user }}";
+        }
+    </script>
+{% endblock %}
+</body>
+</html>

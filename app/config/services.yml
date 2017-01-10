@@ -1,0 +1,32 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/service_container.html
+parameters:
+#    parameter_name: value
+
+services:
+    dc_user.form.registration:
+        class: DCUserBundle\Form\RegistrationType
+        tags:
+            - { name: form.type, alias: dc_user_registration }
+
+    pdo:
+        class: PDO
+        arguments:
+            dsn: mysql:host=%database_host%;port=%database_port%;dbname=%database_name%
+            user: %database_user%
+            password: %database_password%
+        calls:
+            - [ setAttribute, [3, 2] ] # \PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION
+
+    session.handler.pdo:
+        class:     Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler
+        public:    false
+        arguments:
+            - 'mysql:host=%database_host%;port=%database_port%;dbname=%database_name%'
+            - { db_username: '%database_user%', db_password: '%database_password%' }
+
+    gos_web_scocket.client_storage.driver.predis:
+        class: Gos\Bundle\WebSocketBundle\Client\Driver\PredisDriver
+        arguments:
+            - @snc_redis.cache
+            - %web_socket_server.client_storage.prefix% #(optionally)if you use prefix

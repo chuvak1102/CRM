@@ -1,0 +1,9 @@
+services:
+    enterprise.topic_service:
+        class: EnterpriseBundle\Online\MessagesTopic
+        tags:
+            - { name: gos_web_socket.topic }
+    enterprise.rpc_service:
+        class: EnterpriseBundle\Online\MessagesRpc
+        tags:
+            - { name: gos_web_socket.rpc }

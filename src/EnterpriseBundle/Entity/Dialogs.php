@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * @ORM\Entity
  * @ORM\Table(name="dialogs")
+ * @ORM\Entity(repositoryClass="EnterpriseBundle\Repository\DialogsRepository")
  */
 class Dialogs {
 

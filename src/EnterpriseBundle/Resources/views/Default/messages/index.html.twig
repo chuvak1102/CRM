@@ -1,23 +1,18 @@
 {% extends 'EnterpriseBundle:Default:template.html.twig' %}
 {% block content %}
     <div class="messages_page">
-        <div class="navigation">
-            <div class="session_msg"></div>
-            <div class="a_lot_users" id="search_btn" title="Новый разговор"></div>
-            <div class="edit_dialog" id="edit_dialog" title="Настройки диалога"></div>
-        </div>
         <div class="messages_cont">
             <div class="messages" id="all_messages"></div>
             <div class="textarea">
-                <div class="btn important_only active" id="important_only"></div>
-                <div class="btn files_only active" id="files_only"></div>
-                <div class="btn messages_only active" id="messages_only"></div>
+                <div class="add_file active" id="add_file">Файл</div>
                 <textarea name="message" id="outgoing_message" rows="1" cols="1"  class="message"></textarea>
                 <div class="btn enter_sent active" id="enter_sent" title="Enter - отправка сообщения"></div>
                 <div class="btn sent_message active" id="sent_message">Ввод</div>
             </div>
         </div>
         <div class="left">
+            <div class="buttons"></div>
+            <div class="contains">Список диалогов:</div>
             <div class="href_container">
                 {% for i in dialogs %}
                     <div class="href" id="{{ i.0.id }}">
@@ -28,40 +23,13 @@
             </div>
         </div>
         <div class="right">
+            <div class="a_lot_users" id="search_btn" title="Новый разговор"></div>
             <div class="buttons" id="dialog_controls">
                 <div class="btn remove" id="remove" title="Удалить"></div>
                 <div class="btn important" id="important" title="Важно"></div>
             </div>
             <div class="contains">Состав беседы:</div>
             <div class="peoples" id="peoples">
-                <div class="peoples_single">
-                    <img src="{{ asset('images/default_avatar.png') }}" alt="">
-                    <div class="name">Иванова О В</div>
-                </div>
-                <div class="peoples_single">
-                    <img src="{{ asset('images/default_avatar.png') }}" alt="">
-                    <div class="name">Иванова О В</div>
-                </div>
-                <div class="peoples_single">
-                    <img src="{{ asset('images/default_avatar.png') }}" alt="">
-                    <div class="name">Иванова О В</div>
-                </div>
-                <div class="peoples_single">
-                    <img src="{{ asset('images/default_avatar.png') }}" alt="">
-                    <div class="name">Иванова О В</div>
-                </div>
-                <div class="peoples_single">
-                    <img src="{{ asset('images/default_avatar.png') }}" alt="">
-                    <div class="name">Иванова О В</div>
-                </div>
-                <div class="peoples_single">
-                    <img src="{{ asset('images/default_avatar.png') }}" alt="">
-                    <div class="name">Иванова О В</div>
-                </div>
-                <div class="peoples_single">
-                    <img src="{{ asset('images/default_avatar.png') }}" alt="">
-                    <div class="name">Иванова О В</div>
-                </div>
             </div>
         </div>
     </div>
@@ -84,7 +52,8 @@
         clearInterval($.session.get('interval'));
         window.lastDialog = null;
     </script>
-    {% javascripts '@EnterpriseBundle/Resources/public/js/messages.js' %}
+    {% javascripts
+    '@EnterpriseBundle/Resources/public/js/messages/*' %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
 {% endblock %}

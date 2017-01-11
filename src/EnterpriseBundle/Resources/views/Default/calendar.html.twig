@@ -1,32 +1,23 @@
 {% extends 'EnterpriseBundle:Default:template.html.twig' %}
 {% block content %}
-    <div class="calendar">
-        <div class="cont">
+    <div class="calendar_page">
+        <div class="calendar">
             <table class="month_name">
                 <tr>
                     <th id="prevMonth"><</th>
-                    <th id="month"></th>
+                    <th colspan="5" id="month"></th>
                     <th id="nextMonth">></th>
                 </tr>
             </table>
-            <table class="calendar_page">
-                <tr>
-                    <th>MON</th>
-                    <th>TUE</th>
-                    <th>WED</th>
-                    <th>THU</th>
-                    <th>FRI</th>
-                    <th>SAT</th>
-                    <th>SUN</th>
-                </tr>
+            <div class="clear"></div>
+            <table class="day_names">
+                <tr><th>MON</th><th>TUE</th><th>WED</th><th>THU</th><th>FRI</th><th>SAT</th><th>SUN</th></tr>
             </table>
-            <table class="calendar_page" id="calendar">
-
-            </table>
+            <div class="wrap">
+                <table class="days" id="calendar"></table>
+            </div>
         </div>
     </div>
-
-
 {% endblock %}
 {% block script %}
     {{ parent() }}

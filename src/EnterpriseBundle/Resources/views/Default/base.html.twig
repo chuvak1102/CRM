@@ -53,6 +53,11 @@
         function getUser(){
             return "{{ user }}";
         }
+        {% if lastdialog is not empty %}
+            function getLastDialog(){
+                return "{{ lastdialog }}";
+            }
+        {% endif %}
     </script>
 {% endblock %}
 </body>

@@ -9,21 +9,27 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class DefaultController extends Controller
 {
+
+    private function getCurrUser(){
+        return $this->get('security.context')
+            ->getToken()
+            ->getUser();
+    }
+
     /**
      * @Route("/")
      */
     public function indexAction()
     {
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->getCurrUser();
         if($user == 'anon.'){
 
             return $this->redirectToRoute('fos_user_security_login');
         } else {
-            $userId = $this->getDoctrine()->getRepository('EnterpriseBundle:Users')
-                ->findOneBy(array('username' => $user->getUsername()));
 
             return $this->render('EnterpriseBundle:Default:base.html.twig', array(
-                'user' => $userId->getId()
+                'user' => $user->getId(),
+                'lastdialog' => $user->getLastDialog()
             ));
         }
 

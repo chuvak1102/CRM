@@ -43,7 +43,7 @@ class MessagesController extends Controller {
      */
     public function indexAction(Request $request){
 
-//        if($request->isXmlHttpRequest()){
+        if($request->isXmlHttpRequest()){
 
             $dRepo = $this->getDoctrine()
                 ->getRepository('EnterpriseBundle:DialogLink');
@@ -72,9 +72,9 @@ class MessagesController extends Controller {
                 'dialogs' => $messages
             ));
 
-//        } else {
-//            throw new \Exception('Ajax only!');
-//        }
+        } else {
+            throw new \Exception('Ajax only!');
+        }
     }
 
     /**
@@ -317,21 +317,39 @@ class MessagesController extends Controller {
      * @Route("/lastdialog")
      */
     public function getLastDialogAction(Request $request){
-        if($request->isXmlHttpRequest()){
+//        if($request->isXmlHttpRequest()){
 
             if($this->getCurrUser()->getLastDialog()){
+                $uRepo = $this->getDoctrine()->getRepository('EnterpriseBundle:Users');
+                $dRepo = $this->getDoctrine()->getRepository('EnterpriseBundle:Dialogs');
+                $dialogAlias = $dRepo->getUsersInDialog($this->getCurrUser()
+                    ->getLastDialog())[0]->getDialogAlias();
+
+                $users = explode(':', $dialogAlias);
+                foreach($users as $user){
+                    $name = $uRepo->findOneBy(array(
+                        'id' => $user
+                    ));
+                    $names[] = $name->getFullname();
+                    $ids[] = $name->getId();
+                }
+
                 return new JsonResponse(array(
-                    'dialog' => $this->getCurrUser()->getLastDialog()
+                    'data' => array(
+                        'dialog' => $this->getCurrUser()->getLastDialog(),
+                        'users' => $names,
+                        'ids' => $ids
+                    )
                 ));
             } else {
                 return new JsonResponse(array(
-                    'dialog' => false
+                    'empty' => true
                 ));
             }
 
-        } else {
-            throw new \Exception('ajax only');
-        }
+//        } else {
+//            throw new \Exception('ajax only');
+//        }
     }
 
     /**
@@ -409,7 +427,7 @@ class MessagesController extends Controller {
                 if(!empty($message)){
                     $importantFor = $message->getImportant();
                     $important = explode(':', $importantFor);
-                    
+
                     if(in_array($user, $important)){
                         $key = array_search($user, $important);
                         unset($important[$key]);
@@ -434,6 +452,61 @@ class MessagesController extends Controller {
         }
     }
 
+    /**
+     * @Route("/removeuser/{user}/{dialog}", requirements={"dialog":"[\d]+", "user":"[\d]+"})
+     */
+    public function removeFromDialogAction(Users $user, Dialog $dialog, Request $request){
+
+        $em = $this->getDoctrine()->getManager();
+        $dRepo = $this->getDoctrine()->getRepository('EnterpriseBundle:DialogLink');
+        $dLinks = $dRepo->findBy(array(
+            'dialog_alias' => $dialog->getDialogAlias(),
+        ));
+        if(count($dLinks) > 2 && $this->getCurrUser()->getId() != $user->getId()){
+            foreach($dLinks as $link){
+                if($link->getUserId() == $user->getId()){
+                    $em->remove($link);
+                } else {
+                    $newAlias = $this->removeFromString($link->getDialogAlias(), $user->getId());
+                    $link->setDialogAlias($newAlias);
+                    $em->persist($link);
+                }
+            }
+
+            $newAlias = $this->removeFromString($dialog->getDialogAlias(), $user->getId());
+            $dialog->setDialogAlias($newAlias);
+            $em->persist($dialog);
+            $em->flush();
+
+            return new JsonResponse(array('success' => true));
+
+        } else {
+            return new JsonResponse(array('error' => 'Невозможно удалить!'));
+        }
+    }
+
+    private function removeFromString($string, $element){
+        if($string && $element){
+            $alias = explode(':', $string);
+            unset($alias[array_search($element, $alias)]);
+
+            return implode(':', $alias);
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * @Route("/addtodialog/{dialog}", requirements={"dialog":"[\d]+"})
+     */
+    public function addToDialogAction(Dialog $dialog, Request $request){
+
+        $dlink = $this->getDoctrine()
+            ->getRepository("EnterpriseBundle:DialogLink")
+            ->findBy(array(
+                'dialog_alias' => $dialog->getDialogAlias()
+            ));
+    }
 
 
 }

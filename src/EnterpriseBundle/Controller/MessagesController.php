@@ -69,7 +69,8 @@ class MessagesController extends Controller {
             }
 
             return $this->render('EnterpriseBundle:Default/messages:index.html.twig', array(
-                'dialogs' => $messages
+                'dialogs' => $messages,
+                'lastdialog' => $this->getCurrUser()->getLastDialog()
             ));
 
         } else {
@@ -168,53 +169,6 @@ class MessagesController extends Controller {
             throw new \Exception('Ajax only!');
         }
     }
-
-//    /**
-//     * @Route("/newchat")
-//     */
-//    public function beginChatAction(Request $request){
-//
-//        if($request->isXmlHttpRequest()){
-//
-//            $userId = $request->get('user');
-//            $companionId = $request->get('companion');
-//            $redis = $this->container->get('snc_redis.default');
-//
-//            if($this->checkUser($userId)){
-//                $dialogId = $this->findPair($userId, $companionId);
-//
-//                if($redis->sismember('pair', $dialogId)){
-//                    $messages = $this->getMessagesByDialog($dialogId);
-//                    if(!empty($messages)){
-//                        return $this->render('EnterpriseBundle:Default/messages:incoming.html.twig',
-//                            array(
-//                                'messages' => $messages
-//                            ));
-//                    } else {
-//                        return new JsonResponse(array(
-//                            'empty'=>true
-//                        ));
-//                    }
-//
-//                } else {
-//                    $redis->sadd('pair', $userId.'-'.$companionId);
-//                    $redis->rpush('messages'.':'.$userId.'-'.$companionId, '');
-//                }
-//
-//            } else {
-//                return new JsonResponse(array(
-//                    'ok'=>'Can not send message.'
-//                ));
-//            }
-//
-//            return new JsonResponse(array(
-//                'ok'=>true
-//            ));
-//
-//        } else {
-//            throw new Exception('ajax only');
-//        }
-//    }
 
     /**
      * @Route("/newchat")
@@ -317,7 +271,7 @@ class MessagesController extends Controller {
      * @Route("/lastdialog")
      */
     public function getLastDialogAction(Request $request){
-//        if($request->isXmlHttpRequest()){
+        if($request->isXmlHttpRequest()){
 
             if($this->getCurrUser()->getLastDialog()){
                 $uRepo = $this->getDoctrine()->getRepository('EnterpriseBundle:Users');
@@ -326,6 +280,7 @@ class MessagesController extends Controller {
                     ->getLastDialog())[0]->getDialogAlias();
 
                 $users = explode(':', $dialogAlias);
+
                 foreach($users as $user){
                     $name = $uRepo->findOneBy(array(
                         'id' => $user
@@ -347,9 +302,9 @@ class MessagesController extends Controller {
                 ));
             }
 
-//        } else {
-//            throw new \Exception('ajax only');
-//        }
+        } else {
+            throw new \Exception('ajax only');
+        }
     }
 
     /**
@@ -393,11 +348,8 @@ class MessagesController extends Controller {
             foreach($ids as $id){
                 $message = $mRepo->findOneBy(array('id' => $id));
                 if(!empty($message)){
-                    $hiddenBy = $message->getHidden();
-                    $hidden = explode(':', $hiddenBy);
-                    array_push($hidden, $user);
-                    $newHidden = implode(':', $hidden);
-                    $message->setHidden($newHidden);
+                    $hidden = $this->addToString($message->getHidden(), $user);
+                    $message->setHidden($hidden);
                     $em->persist($message);
                 }
             }
@@ -420,8 +372,8 @@ class MessagesController extends Controller {
             $mRepo = $this->getDoctrine()->getRepository('EnterpriseBundle:Messages');
             $user = $this->getCurrUser()->getUsername();
             $ids = $request->get('messages');
-
             $em = $this->getDoctrine()->getManager();
+
             foreach($ids as $id){
                 $message = $mRepo->findOneBy(array('id' => $id));
                 if(!empty($message)){
@@ -429,17 +381,13 @@ class MessagesController extends Controller {
                     $important = explode(':', $importantFor);
 
                     if(in_array($user, $important)){
-                        $key = array_search($user, $important);
-                        unset($important[$key]);
-                        $newImportant = implode(':', $important);
-                        $message->setImportant($newImportant);
-                        $em->persist($message);
+                        $important = $this->removeFromString($importantFor, $user);
                     } else {
-                        array_push($important, $user);
-                        $newImportant = implode(':', $important);
-                        $message->setImportant($newImportant);
-                        $em->persist($message);
+                        $important = $this->addToString($importantFor, $user);
                     }
+
+                    $message->setImportant($important);
+                    $em->persist($message);
                 }
             }
 
@@ -462,6 +410,7 @@ class MessagesController extends Controller {
         $dLinks = $dRepo->findBy(array(
             'dialog_alias' => $dialog->getDialogAlias(),
         ));
+
         if(count($dLinks) > 2 && $this->getCurrUser()->getId() != $user->getId()){
             foreach($dLinks as $link){
                 if($link->getUserId() == $user->getId()){
@@ -481,11 +430,32 @@ class MessagesController extends Controller {
             return new JsonResponse(array('success' => true));
 
         } else {
-            return new JsonResponse(array('error' => 'Невозможно удалить!'));
+            return new JsonResponse(array('error' => 'Невозможно удалить самого себя, либо в диалоге осталось менее трех челвоек!'));
         }
     }
 
-    private function removeFromString($string, $element){
+    /**
+     * @Route("/addtodialog/{dialog}", requirements={"dialog":"[\d]+"})
+     */
+    public function addToDialogAction(Dialog $dialog, Request $request){
+
+        $x = 0;
+
+        $mHelper = $this->get('enterprise.mhelper');
+
+        $dialog = $mHelper->removeFromString('1:2:3:4', '2');
+
+        return new JsonResponse(array('ok' => $dialog));
+    }
+
+    public function addToString($string, $element){
+        $array = explode(':', $string);
+        array_push($array, $element);
+        $array = implode(':', $array);
+        return $array;
+    }
+
+    public function removeFromString($string, $element){
         if($string && $element){
             $alias = explode(':', $string);
             unset($alias[array_search($element, $alias)]);
@@ -496,17 +466,16 @@ class MessagesController extends Controller {
         }
     }
 
-    /**
-     * @Route("/addtodialog/{dialog}", requirements={"dialog":"[\d]+"})
-     */
-    public function addToDialogAction(Dialog $dialog, Request $request){
-
-        $dlink = $this->getDoctrine()
-            ->getRepository("EnterpriseBundle:DialogLink")
-            ->findBy(array(
-                'dialog_alias' => $dialog->getDialogAlias()
+    private function getUersFromDialogAlias($stringAlias){
+        $uRepo = $this->getDoctrine()->getRepository('EnterpriseBundle:Users');
+        $array = explode(':', $stringAlias);
+        foreach($array as $user){
+            $users[] = $uRepo->findOneBy(array(
+                'id' => $user
             ));
-    }
+        }
 
+        return !empty($users) ? $users : false;
+    }
 
 }

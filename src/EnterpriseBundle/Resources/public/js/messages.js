@@ -1,16 +1,26 @@
 // open last dialog
 $(document).ready(function(){
-    $.ajax({
-        url: '/messages/lastdialog',
-        success: function(response){
-            if(!response.empty){
-                window.lastDialog = response.dialog;
-                $('#'+response.dialog).addClass('active');
-                update();
-            }
-        }
-    })
+    window.lastDialog = getLastDialog();
+    update();
 });
+
+function fillUsersInDialog(userArray){
+    var users = userArray.users;
+    var ids = userArray.ids;
+    for(var i = 0; i < users.length; i++){
+        var u = $('<div></div>')
+            .addClass('peoples_single')
+            .attr('id', ids[i]+'remove_user');
+        var img = $('<img>')
+            .attr('src', 'images/default_avatar.png');
+        var name = $('<div></div>')
+            .addClass('name').html(users[i]);
+        u.append(img);
+        u.append(name);
+        $('#peoples').append(u);
+    }
+}
+
 
 // auto update messages
 //var timer = setInterval(update, 10000);
@@ -76,7 +86,7 @@ $('#prepare_dialog').click(function(e){
         .remove();
 });
 
-
+// cancel to find users
 $('#cancel').click(function(){
     $('#find_users').hide();
 });
@@ -121,7 +131,7 @@ $('#confirm').click(function(){
                     }
 
                 } else {
-                    alert('Please, select user to talk with.')
+                    error('Неизвестная ошибка, пожалуйста, обратитесь к администратору');
                 }
                 update();
                 $('#prepare_dialog').empty();
@@ -129,10 +139,11 @@ $('#confirm').click(function(){
             }
         })
     } else {
-        alert('Please, select user to talk with.')
+        error('Пользователи не выбраны');
     }
 });
 
+// send message
 function sendMessage(){
     var dialog = window.lastDialog;
     $.ajax({
@@ -142,11 +153,12 @@ function sendMessage(){
         },
         success : function(response){
             $('textarea').val('');
-            update();
+            //update();
         }
     })
 }
 
+// send message by enter
 $('#enter_sent').click(function(){
     $(this).toggleClass('active');
 });
@@ -159,7 +171,10 @@ $('#sent_message').click(function(){
 $('textarea').keyup(function(e){
 
     var dialog = window.lastDialog;
-    if(e.which == 13 && $('#enter_sent').hasClass('active')){
+    var length = $(this).val().length;
+    var enterSent = $('#enter_sent').hasClass('active');
+
+    if(e.which == 13 && enterSent && length > 1){
         $.ajax({
             url : '/messages/newmessage/'+dialog,
             data : {
@@ -167,7 +182,7 @@ $('textarea').keyup(function(e){
             },
             success : function(response){
                 $('textarea').val('');
-                update();
+                //update();
             }
         })
     }
@@ -178,6 +193,9 @@ $('.href_container').on('click', 'div.href', function(e){
     var target = $(e.target);
     if(target.hasClass('href')){
         window.lastDialog = target.attr('id');
+        $('#dialog_controls').css({
+            "padding-top" : "40px"
+        });
         update();
     }
 });
@@ -199,12 +217,25 @@ function update(){
             },
             success : function(response){
                 if(!response.fail){
+                    $.ajax({
+                        url: '/messages/lastdialog',
+                        success: function(response){
+                            if(!response.empty){
+                                $('#'+dialog).addClass('active');
+                                $('#peoples').empty();
+                                window.lastDialog = dialog;
+                                fillUsersInDialog(response.data);
+                            }
+                        }
+                    });
+
                     $('#all_messages')
                         .html(response);
-                        //.jScrollPane();
+
                 }
             }
-        })
+        });
+
     }
 }
 
@@ -273,6 +304,7 @@ $('.href span').click(function(e){
             if(response.hidden == true){
                 elem.remove();
                 $('#all_messages').empty();
+                $('#peoples').empty();
             }
         }
     })
@@ -303,6 +335,9 @@ $('#remove').click(function(){
         },
         success : function(response){
             if(response.removed == true){
+                $('#dialog_controls').css({
+                    "padding-top" : "40px"
+                });
                 update();
             }
         }
@@ -328,8 +363,70 @@ $('#important').click(function(){
     });
 });
 
+// remove user from dialog
+$('#peoples').on('click', '.peoples_single', function(e){
+    var user = parseInt($(e.target)
+        .closest('.peoples_single')
+        .attr('id'));
+    var dialog = window.lastDialog;
+    if(user && dialog){
+        $.ajax({
+            url : '/messages/removeuser/'+user+'/'+dialog,
+            success : function(response){
+                if(!response.error){
+                    update();
+                } else {
+                    error(response.error);
+                }
+            }
+        })
+    }
+});
 
+// add user to dialog
+$('#invite_user').click(function(){
+    $(this).css({
+        "height" : "300px",
+        "border-radius" : "20px 0 0 0"
+    });
+    var peoples = $('#peoples');
+    $.ajax({
+        url : '/messages/addtodialog/'+window.lastDialog,
+        success : function(response){
 
+            alert(response.ok);
+
+            //for(var i = 0; i < response.id.length; i++){
+            //    var exist = $('#prepare_dialog')
+            //        .find('#'+response.id[i]+'remove_user');
+            //    if(!exist){
+            //        var div = $('<div></div>')
+            //            .addClass('result')
+            //            .attr('id', response.id[i]+'remove_user')
+            //            .html(response.name[i]);
+            //        peoples.append(div);
+            //    }
+            //}
+        }
+    })
+});
+
+// error
+function error(string){
+    var error = $('<div></div>')
+        .html(string);
+    $('#errors')
+        .append(error)
+        .animate({
+            "opacity" : 1
+        }, 500, function() {
+            $(error).animate({
+                "opacity" : 0
+            }, 5000, function() {
+                error.remove();
+            });
+        });
+}
 
 
 //$('#all_messages').jScrollPane();

@@ -30,3 +30,6 @@ services:
         arguments:
             - @snc_redis.cache
             - %web_socket_server.client_storage.prefix% #(optionally)if you use prefix
+
+    enterprise.mhelper:
+        class: EnterpriseBundle\Services\MessagesHelper

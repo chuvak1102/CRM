@@ -7,3 +7,6 @@ services:
         class: EnterpriseBundle\Online\MessagesRpc
         tags:
             - { name: gos_web_socket.rpc }
+
+    datachecker:
+        class: EnterpriseBundle\Services\MessagesHelper

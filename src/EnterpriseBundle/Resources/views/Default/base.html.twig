@@ -48,16 +48,16 @@
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
-    {{ ws_client() }}
+    {#{{ ws_client() }}#}
     <script>
         function getUser(){
             return "{{ user }}";
         }
-        {% if lastdialog is not empty %}
-            function getLastDialog(){
-                return "{{ lastdialog }}";
-            }
-        {% endif %}
+        {#{% if lastdialog is not empty %}#}
+            {#function getLastDialog(){#}
+                {#return "{{ lastdialog }}";#}
+            {#}#}
+        {#{% endif %}#}
     </script>
 {% endblock %}
 </body>

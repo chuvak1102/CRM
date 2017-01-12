@@ -29,7 +29,7 @@ class DefaultController extends Controller
 
             return $this->render('EnterpriseBundle:Default:base.html.twig', array(
                 'user' => $user->getId(),
-                'lastdialog' => $user->getLastDialog()
+//                'lastdialog' => $user->getLastDialog()
             ));
         }
 

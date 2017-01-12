@@ -11,7 +11,7 @@
             </div>
         </div>
         <div class="left">
-            <div class="buttons"></div>
+            <div class="buttons" id="errors"></div>
             <div class="contains">Список диалогов:</div>
             <div class="href_container">
                 {% for i in dialogs %}
@@ -31,6 +31,11 @@
             <div class="contains">Состав беседы:</div>
             <div class="peoples" id="peoples">
             </div>
+            <div class="peoples_add">
+                <div class="peoples_single add_new" id="invite_user">
+                    <div class="add">+</div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -49,11 +54,16 @@
 {% block script %}
     {{ parent() }}
     <script>
-        clearInterval($.session.get('interval'));
-        window.lastDialog = null;
+//        clearInterval($.session.get('interval'));
+//        window.lastDialog = null;
+    {% if lastdialog is not empty %}
+    function getLastDialog(){
+        return "{{ lastdialog }}";
+    }
+    {% endif %}
     </script>
     {% javascripts
-    '@EnterpriseBundle/Resources/public/js/messages/*' %}
+    '@EnterpriseBundle/Resources/public/js/messages.js' %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
 {% endblock %}

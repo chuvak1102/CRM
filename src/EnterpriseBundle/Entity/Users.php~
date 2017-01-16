@@ -3,6 +3,7 @@ namespace EnterpriseBundle\Entity;
 
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
@@ -23,6 +24,11 @@ class Users extends BaseUser
     protected $fullname;
 
     /**
+     * @ORM\OneToMany(targetEntity="EnterpriseBundle\Entity\Dialog", mappedBy="creator")
+     */
+    protected $dialogs;
+
+    /**
      * @ORM\Column(type="integer", length=10, nullable=true)
      */
     protected $last_dialog;
@@ -30,12 +36,16 @@ class Users extends BaseUser
     public function __construct()
     {
         parent::__construct();
+        $this->dialogs = new ArrayCollection();
     }
+
+
 
     /**
      * Set fullname
      *
      * @param string $fullname
+     *
      * @return Users
      */
     public function setFullname($fullname)
@@ -48,19 +58,18 @@ class Users extends BaseUser
     /**
      * Get fullname
      *
-     * @return string 
+     * @return string
      */
     public function getFullname()
     {
         return $this->fullname;
     }
 
-
-
     /**
-     * Set last_dialog
+     * Set lastDialog
      *
-     * @param string $lastDialog
+     * @param integer $lastDialog
+     *
      * @return Users
      */
     public function setLastDialog($lastDialog)
@@ -71,12 +80,46 @@ class Users extends BaseUser
     }
 
     /**
-     * Get last_dialog
+     * Get lastDialog
      *
-     * @return string 
+     * @return integer
      */
     public function getLastDialog()
     {
         return $this->last_dialog;
+    }
+
+    /**
+     * Add dialog
+     *
+     * @param \EnterpriseBundle\Entity\Dialog $dialog
+     *
+     * @return Users
+     */
+    public function addDialog(\EnterpriseBundle\Entity\Dialog $dialog)
+    {
+        $this->dialogs[] = $dialog;
+
+        return $this;
+    }
+
+    /**
+     * Remove dialog
+     *
+     * @param \EnterpriseBundle\Entity\Dialog $dialog
+     */
+    public function removeDialog(\EnterpriseBundle\Entity\Dialog $dialog)
+    {
+        $this->dialogs->removeElement($dialog);
+    }
+
+    /**
+     * Get dialogs
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getDialogs()
+    {
+        return $this->dialogs;
     }
 }

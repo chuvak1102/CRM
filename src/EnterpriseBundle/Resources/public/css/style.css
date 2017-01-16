@@ -211,11 +211,14 @@ html, body {
     padding-top: 10px;
 }
 
-.row1 .photoblock {
-    width: 150px;
-    height: 220px;
+.fileBlock {
+    width: 63px;
+    height: 30px;
     position: relative;
     float: left;
+    background-color: #ccc;
+    left: 10px;
+    top: 15px;
 }
 
 .row1 .photoblock img {
@@ -223,21 +226,22 @@ html, body {
     height: 200px;
 }
 
-.worker_form .file {
+.fileBlock .file {
     position: absolute;
     bottom: 0;
     left: 0;
     border: 1px solid #525252;
     background-color: #b8b8b8;
-    width: 150px;
+    width: 63px;
     font-size: 14px;
     text-align: center;
-    line-height: 20px;
+    line-height: 30px;
+    height: 30px;
 }
 
-.worker_form input[type=file] {
-    height: 20px;
-    width: 150px;
+.fileBlock input[type=file] {
+    height: 30px;
+    width: 63px;
     overflow: hidden;
     position: absolute;
     bottom: 0;
@@ -245,7 +249,7 @@ html, body {
     opacity: 0;
 }
 
-.worker_form input[type=file]:hover .file {
+.fileBlock:hover .file {
     background-color: #fff;
 }
 
@@ -715,11 +719,6 @@ html, body {
     border-radius: 2px;
 }
 
-.messages_page .messages_cont .textarea .active {
-    background-color: #fff;
-}
-
-
 .messages_page .messages_cont .textarea .add_file{
     background-color: #fff;
     height: 30px;
@@ -735,19 +734,35 @@ html, body {
 .messages_page .messages_cont .textarea .enter_sent{
     right: 80px;
     background-position: -311px 459px;
+    text-align: center;
+    line-height: 30px;
+    position: absolute;
+    top: 15px;
+    border: 1px solid #525252;
+    background-color: #b8b8b8;
+    font-size: 14px;
 }
+
+.messages_page .messages_cont .textarea .active {
+    background-color: #fff;
+}
+
 .messages_page .messages_cont .textarea .sent_message{
     right: 10px;
     width: 63px;
-    font-size: 12px;
     background-image: none;
     text-align: center;
     line-height: 30px;
+    position: absolute;
+    top: 15px;
+    border: 1px solid #525252;
+    background-color: #b8b8b8;
+    font-size: 14px;
 }
 
 .messages_page .messages_cont textarea {
     resize: none;
-    width: calc(100% - 235px);
+    width: 500px;
     max-width: 960px;
     display: block;
     border-radius: 5px;
@@ -755,6 +770,8 @@ html, body {
     margin: 12px auto;
     padding: 10px;
     font-size: 14px;
+    position: absolute;
+    left: calc(50% - 250px);
 }
 
 .messages_page .left {
@@ -883,6 +900,30 @@ html, body {
     cursor: pointer;
     transition: all 0.5s;
     font-weight: normal;
+}
+
+.messages_page .right .peoples_add .peoples_single .new_user {
+    display: none;
+}
+
+.messages_page .right .peoples_add .peoples_single {
+    position: relative;
+}
+
+.messages_page .right .peoples_add .peoples_single .new_user input {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    width: calc(100% - 80px);
+}
+
+.messages_page .right .peoples_add .peoples_single .new_user div {
+    color: #42648b;
+    text-align: center;
+}
+
+.messages_page .right .peoples_add .peoples_single .new_user div:hover {
+    color: #aaaaaa;
 }
 
 .messages_page .right .peoples .peoples_single .name {

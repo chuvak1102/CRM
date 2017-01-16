@@ -31,5 +31,8 @@ services:
             - @snc_redis.cache
             - %web_socket_server.client_storage.prefix% #(optionally)if you use prefix
 
-    enterprise.mhelper:
+    mhelper:
         class: EnterpriseBundle\Services\MessagesHelper
+
+    file_uploader:
+        class: EnterpriseBundle\Services\FileUploader

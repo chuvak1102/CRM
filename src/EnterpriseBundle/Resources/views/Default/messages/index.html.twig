@@ -2,24 +2,58 @@
 {% block content %}
     <div class="messages_page">
         <div class="messages_cont">
-            <div class="messages" id="all_messages"></div>
-            <div class="textarea">
-                <div class="add_file active" id="add_file">Файл</div>
-                <textarea name="message" id="outgoing_message" rows="1" cols="1"  class="message"></textarea>
-                <div class="btn enter_sent active" id="enter_sent" title="Enter - отправка сообщения"></div>
-                <div class="btn sent_message active" id="sent_message">Ввод</div>
+            <div class="messages" id="all_messages">
+                {% if messages and dialogs is not empty %}
+                    {% for i in messages %}
+                        <div class="message" id="{{ i.1 }}message">
+                            <div class="outgoing">
+                                {{ i.3 }}
+                                <span>{{ i.4 | date('H:i') }}</span>
+                                {% if i.9 is not empty %}
+                                    <a href="{{ i.9 }}"><div class="file"></div></a>
+                                {% endif %}
+                                <div class="message_from">{{ i.6 }}</div>
+                                <div class="edit_icon"></div>
+                                {% if i.7 is not empty %}
+                                    <div class="important_message"></div>
+                                {% endif %}
+                                <img src="{{ asset('images/default_avatar.png') }}" alt="" class="user_avatar">
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="textarea" id="message_form">
+                <form action="/" method="post">
+                    <div class="fileBlock">
+                        <div class="file">Файл</div>
+                        <input type="file" id="file">
+                    </div>
+                    <textarea name="message" id="outgoing_message" rows="1" cols="1"  class="message"></textarea>
+                    <div class="btn enter_sent active" id="enter_sent" title="Enter - отправка сообщения"></div>
+                    <div class="btn sent_message active" id="sent_message">Ввод</div>
+                </form>
             </div>
         </div>
         <div class="left">
             <div class="buttons" id="errors"></div>
             <div class="contains">Список диалогов:</div>
             <div class="href_container">
-                {% for i in dialogs %}
-                    <div class="href" id="{{ i.0.id }}">
-                        {{ i.0.getDialogName }}
-                        <span>&nbsp;X</span>
-                    </div>
-                {% endfor %}
+                {% if dialogs is not empty %}
+                    {% for i in dialogs %}
+                        {% if i.id == lastdialog %}
+                            <div class="href active" id="{{ i.id }}">
+                                {{ i.dialog_name }}
+                                <span>&nbsp;X</span>
+                            </div>
+                        {% else %}
+                            <div class="href" id="{{ i.id }}">
+                                {{ i.dialog_name }}
+                                <span>&nbsp;X</span>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
             </div>
         </div>
         <div class="right">
@@ -30,10 +64,22 @@
             </div>
             <div class="contains">Состав беседы:</div>
             <div class="peoples" id="peoples">
+                {% if users is not empty %}
+                    {% for i in users %}
+                        <div class="peoples_single" id="{{ i.2 }}remove_user">
+                            <img alt="" src="{{ asset('images/default_avatar.png') }}">
+                            <div class="name">{{ i.1 }}</div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
             </div>
             <div class="peoples_add">
                 <div class="peoples_single add_new" id="invite_user">
                     <div class="add">+</div>
+                    <div class="new_user" id="new_user">
+                        <input type="text" id="invite_to_dialog">
+                        <div class="results" id="invited_users"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -50,6 +96,7 @@
             <div class="cancel" id="cancel">Отмена</div>
         </div>
     </div>
+    {#{{ dump() }}#}
 {% endblock %}
 {% block script %}
     {{ parent() }}

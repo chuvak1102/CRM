@@ -4,6 +4,9 @@
             <div class="outgoing">
                 {{ i.message }}
                 <span>{{ i.created | date('H:i') }}</span>
+                {% if i.getFile is not empty %}
+                    <a href="{{ i.getFile }}" target="_blank"><div class="file"></div></a>
+                {% endif %}
                 <div class="message_from">{{ i.getAuthorName }}</div>
                 <div class="edit_icon"></div>
                 {#{% if app.user.username in i.getImportant %}#}

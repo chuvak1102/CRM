@@ -152,11 +152,13 @@ class MessagesController extends Controller {
             $em->persist($message);
             $em->flush();
 
-            return $this->render('EnterpriseBundle:Default/messages:incoming.html.twig',
-                array(
-                    'messages' => $dialog->getMessages()
-                )
-            );
+            return new JsonResponse(array('ok' => 'ok'));
+
+//            return $this->render('EnterpriseBundle:Default/messages:incoming.html.twig',
+//                array(
+//                    'messages' => $dialog->getMessages()
+//                )
+//            );
 
         } else {
             throw new \Exception('Ajax only!');
@@ -189,7 +191,7 @@ class MessagesController extends Controller {
                 $dialog->setCreator($this->getCurrUser()->getId());
 
                 $em->persist($dialog);
-                $em->persist($currUser);
+
                 $em->flush();
 
                 // переписать это говно!!!
@@ -200,6 +202,7 @@ class MessagesController extends Controller {
                     ->getResult()[0]->getId();
 
                 $currUser->setLastDialog($dialog->getId());
+                $em->persist($currUser);
                 // конец говна
 
                 foreach($users as $user){
@@ -252,6 +255,9 @@ class MessagesController extends Controller {
             ));
 
             $em = $this->getDoctrine()->getManager();
+            $user = $this->getCurrUser();
+            $user->setLastDialog(null);
+            $em->persist($user);
             $em->remove($hiddenDialog);
             $em->flush();
 
@@ -335,6 +341,11 @@ class MessagesController extends Controller {
         ));
 
         $em = $this->getDoctrine()->getManager();
+            if($user->getId() == $this->getCurrUser()->getId()){
+                $currUser = $this->getCurrUser();
+                $currUser->setLastDialog(null);
+                $em->persist($currUser);
+            }
         $em->remove($hiddenDialog);
         $em->flush();
 
@@ -400,7 +411,7 @@ class MessagesController extends Controller {
         $em->persist($message);
         $em->flush();
 
-        return new JsonResponse(array('uploaded' => true));
+        return $this->redirectToRoute('enterprise_messages_index');
     }
 
 }

@@ -1,7 +1,4 @@
-//// open last dialog
-$(document).ready(function(){
-    window.lastDialog = getLastDialog();
-});
+
 
 //// search users
 $('#search_people').on('input', function(){
@@ -136,16 +133,19 @@ $('textarea').keyup(function(e){
             },
             success : function(response){
                 $('textarea').val('');
-                $('#all_messages').html(response);
+                update();
                 if(window.form){
                     $.ajax({
                         url: '/messages/fileupload',
                         type: 'POST',
                         data: window.form,
                         processData: false,
-                        contentType: false
+                        contentType: false,
+                        success : function(response){
+                            window.form = '';
+                            update();
+                        }
                     });
-                    window.form = '';
                 }
             }
         })
@@ -158,17 +158,9 @@ $('input[type="file"]').on("change", function (){
     var file = this.files[0];
     var formdata = new FormData();
     var reader = new FileReader();
-
     reader.readAsDataURL(file);
     formdata.append("file", file);
     window.form = formdata;
-    //$.ajax({
-    //    url: '/messages/fileupload',
-    //    type: 'POST',
-    //    data: formdata,
-    //    processData: false,
-    //    contentType: false
-    //});
 });
 
 //switch dialog

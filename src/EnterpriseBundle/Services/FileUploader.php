@@ -5,13 +5,14 @@ class FileUploader {
 
     protected $root = '/var/www/job/web/';
     protected $maxsize = '3mb'; //(int) kb, gb, mb
-    protected $allowed = ['rar','zip','doc','docx', 'mp3', 'xls', 'jpg', 'png', 'gif', 'jpeg'];
+    protected $allowed = ['rar','zip','doc','docx', 'mp3', 'xls', 'jpg', 'png', 'gif', 'jpeg', 'txt'];
     protected $path = array(
         'rar' => 'files/documents/',
         'zip' => 'files/documents/',
         'doc' => 'files/documents/',
         'docx' => 'files/documents/',
         'xls' => 'files/documents/',
+        'txt' => 'files/documents/',
         'jpg' => 'files/images/',
         'png' => 'files/images/',
         'gif' => 'files/images/',
@@ -31,6 +32,7 @@ class FileUploader {
 
             return $this->persist($file);
         } else {
+
             return array(
                 'name' => $goodName,
                 'size' => $goodSize,
@@ -41,9 +43,10 @@ class FileUploader {
 
     protected function checkName($file){
 
-        $p = '/^[a-zA-Zа-яА-ЯёЁ0-9_-]{1,255}[.][a-z]{3,4}$/';
-
-        if(preg_match($p, $file['name'])){
+//        $p = '/[a-zA-Zа-яёА-ЯЁ0-9\s_-]{1,255}[.][a-z]{3,4}$/msiu';
+        $p = "(){}[]<>~!@#$%^`&*=|\"\'?\/\\№;:+";
+        $catch = substr_count($file['name'], $p);
+        if($catch === 0){
             return true;
         } else {
             return false;
@@ -111,8 +114,20 @@ class FileUploader {
         $exe = $this->getExtension($file);
         $path = $this->getPath($file);
         $uploadedFile = $this->root.$path.$name.'.'.$exe;
-        move_uploaded_file($file['tmp_name'], $uploadedFile);
-        return $path.$name.'.'.$exe;
-    }
 
+        $dirExist = is_dir($this->root.$path);
+
+        if($dirExist){
+            move_uploaded_file($file['tmp_name'], $uploadedFile);
+            return $path.$name.'.'.$exe;
+        } else {
+            mkdir($this->root.$path, 0755);
+            if(is_dir($this->root.$path)){
+                move_uploaded_file($file['tmp_name'], $uploadedFile);
+                return $path.$name.'.'.$exe;
+            } else {
+                return array('can not create directory' => $path);
+            }
+        }
+    }
 }

@@ -10,7 +10,7 @@
                                 {{ i.3 }}
                                 <span>{{ i.4 | date('H:i') }}</span>
                                 {% if i.9 is not empty %}
-                                    <a href="{{ i.9 }}"><div class="file"></div></a>
+                                    <a href="{{ i.9 }}" target="_blank"><div class="file"></div></a>
                                 {% endif %}
                                 <div class="message_from">{{ i.6 }}</div>
                                 <div class="edit_icon"></div>
@@ -24,15 +24,14 @@
                 {% endif %}
             </div>
             <div class="textarea" id="message_form">
-                <form action="/" method="post">
+                {#<form action="/" method="post">#}
                     <div class="fileBlock">
-                        <div class="file">Файл</div>
+                        <div class="file"></div>
                         <input type="file" id="file">
                     </div>
                     <textarea name="message" id="outgoing_message" rows="1" cols="1"  class="message"></textarea>
                     <div class="btn enter_sent active" id="enter_sent" title="Enter - отправка сообщения"></div>
-                    <div class="btn sent_message active" id="sent_message">Ввод</div>
-                </form>
+                {#</form>#}
             </div>
         </div>
         <div class="left">
@@ -74,6 +73,7 @@
                 {% endif %}
             </div>
             <div class="peoples_add">
+                {% if users is not empty %}
                 <div class="peoples_single add_new" id="invite_user">
                     <div class="add">+</div>
                     <div class="new_user" id="new_user">
@@ -81,6 +81,7 @@
                         <div class="results" id="invited_users"></div>
                     </div>
                 </div>
+                {% endif %}
             </div>
         </div>
     </div>

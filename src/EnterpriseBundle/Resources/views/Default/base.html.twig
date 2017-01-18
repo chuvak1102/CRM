@@ -15,6 +15,7 @@
         <a id="home_page" class="active" href="/" title="Главная"></a>
         <div id="messages_page" title="Группы"></div>
         <div id="calendar_page" title="Календарь"></div>
+        <div id="notepad_page" title="Блокнот"></div>
         <div id="search_page" title="Поиск"></div>
         <div id="important_page" title="Важно"></div>
         <div id="recycle_page" title="Корзина"></div>
@@ -53,11 +54,6 @@
         function getUser(){
             return "{{ user }}";
         }
-        {#{% if lastdialog is not empty %}#}
-            {#function getLastDialog(){#}
-                {#return "{{ lastdialog }}";#}
-            {#}#}
-        {#{% endif %}#}
     </script>
 {% endblock %}
 </body>

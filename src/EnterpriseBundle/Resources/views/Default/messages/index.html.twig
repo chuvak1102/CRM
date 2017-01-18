@@ -24,14 +24,14 @@
                 {% endif %}
             </div>
             <div class="textarea" id="message_form">
-                {#<form action="/" method="post">#}
+                {% if dialogs is not empty %}
                     <div class="fileBlock">
                         <div class="file"></div>
                         <input type="file" id="file">
                     </div>
+                {% endif %}
                     <textarea name="message" id="outgoing_message" rows="1" cols="1"  class="message"></textarea>
                     <div class="btn enter_sent active" id="enter_sent" title="Enter - отправка сообщения"></div>
-                {#</form>#}
             </div>
         </div>
         <div class="left">
@@ -65,10 +65,12 @@
             <div class="peoples" id="peoples">
                 {% if users is not empty %}
                     {% for i in users %}
+                        {% if i.2 != currUser %}
                         <div class="peoples_single" id="{{ i.2 }}remove_user">
                             <img alt="" src="{{ asset('images/default_avatar.png') }}">
                             <div class="name">{{ i.1 }}</div>
                         </div>
+                        {% endif %}
                     {% endfor %}
                 {% endif %}
             </div>
@@ -105,9 +107,12 @@
 //        clearInterval($.session.get('interval'));
 //        window.lastDialog = null;
     {% if lastdialog is not empty %}
-    function getLastDialog(){
-        return "{{ lastdialog }}";
-    }
+        $(document).ready(function(){
+            window.lastDialog = getLastDialog();
+        });
+        function getLastDialog(){
+            return "{{ lastdialog }}";
+        }
     {% endif %}
     </script>
     {% javascripts

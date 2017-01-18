@@ -18,12 +18,27 @@ function expand(response){
         });
 }
 
+$('#messages_page').click(function(e){
+    $.ajax({
+        url: "/messages",
+        success: function(response){
+            expand(response);
+        }
+    });
+});
+
 $('#calendar_page').click(function(e){
     $.ajax({
         url: "/calendar",
-        data: {
-            'ok' : 'ok'
-        },
+        success: function(response){
+            expand(response);
+        }
+    });
+});
+
+$('#notepad_page').click(function(e){
+    $.ajax({
+        url: "/notepad",
         success: function(response){
             expand(response);
         }
@@ -33,9 +48,6 @@ $('#calendar_page').click(function(e){
 $('#card_page').click(function(e){
     $.ajax({
         url: "/card",
-        data: {
-            'ok' : 'ok'
-        },
         success: function(response){
             expand(response);
         }
@@ -45,9 +57,6 @@ $('#card_page').click(function(e){
 $('#delivery_page').click(function(e){
     $.ajax({
         url: "/delivery",
-        data: {
-            'ok' : 'ok'
-        },
         success: function(response){
             expand(response);
         }
@@ -57,9 +66,6 @@ $('#delivery_page').click(function(e){
 $('#documents_page').click(function(e){
     $.ajax({
         url: "/documents",
-        data: {
-            'ok' : 'ok'
-        },
         success: function(response){
             expand(response);
         }
@@ -69,9 +75,6 @@ $('#documents_page').click(function(e){
 $('#groups_page').click(function(e){
     $.ajax({
         url: "/groups",
-        data: {
-            'ok' : 'ok'
-        },
         success: function(response){
             expand(response);
         }
@@ -80,34 +83,17 @@ $('#groups_page').click(function(e){
 
 $('#important_page').click(function(e){
     $.ajax({
-        url: "/important",
-        data: {
-            'ok' : 'ok'
-        },
         success: function(response){
             expand(response.time);
         }
     });
 });
 
-$('#messages_page').click(function(e){
-    $.ajax({
-        url: "/messages",
-        data: {
-            'ok' : 'ok'
-        },
-        success: function(response){
-            expand(response);
-        }
-    });
-});
+
 
 $('#recycle_page').click(function(e){
     $.ajax({
         url: "/recycle",
-        data: {
-            'ok' : 'ok'
-        },
         success: function(response){
             expand(response);
         }
@@ -117,9 +103,6 @@ $('#recycle_page').click(function(e){
 $('#search_page').click(function(e){
     $.ajax({
         url: "/search",
-        data: {
-            'ok' : 'ok'
-        },
         success: function(response){
             expand(response);
         }
@@ -129,9 +112,6 @@ $('#search_page').click(function(e){
 $('#settings_page').click(function(e){
     $.ajax({
         url: "/settings",
-        data: {
-            'ok' : 'ok'
-        },
         success: function(response){
             expand(response);
         }
@@ -141,9 +121,6 @@ $('#settings_page').click(function(e){
 $('#workers_page').click(function(e){
     $.ajax({
         url: "/workers",
-        data: {
-            'ok' : 'ok'
-        },
         success: function(response){
             expand(response);
         }

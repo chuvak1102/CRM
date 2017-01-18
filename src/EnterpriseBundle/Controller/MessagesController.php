@@ -60,7 +60,8 @@ class MessagesController extends Controller {
                 'dialogs' => $dialogs,
                 'messages' => $messages,
                 'users' => $users,
-                'lastdialog' => $this->getCurrUser()->getLastDialog()
+                'lastdialog' => $this->getCurrUser()->getLastDialog(),
+                'currUser' => $this->getCurrUser()->getId()
             ));
 
 //        } else {

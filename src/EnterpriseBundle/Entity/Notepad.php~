@@ -1,0 +1,50 @@
+<?php
+namespace EnterpriseBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="notepad")
+ */
+class Notepad {
+
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="integer", length=10)
+     */
+    private $user_id;
+
+    /**
+     * @ORM\Column(type="string", length=1000, nullable=true)
+     */
+    private $header;
+
+    /**
+     * @ORM\Column(type="text", length=10000, nullable=true)
+     */
+    private $message;
+
+    /**
+     * @ORM\Column(name="created", type="datetime", nullable=true)
+     */
+    private $created;
+
+    /**
+     * @ORM\Column(type="integer", length=10)
+     */
+    private $color;
+
+    /**
+     * @ORM\Column(type="integer", length=1)
+     */
+    private $hidden;
+
+}

@@ -178,4 +178,28 @@ class Messages {
     {
         return $this->authorName;
     }
+
+    /**
+     * Set file
+     *
+     * @param string $file
+     *
+     * @return Messages
+     */
+    public function setFile($file)
+    {
+        $this->file = $file;
+
+        return $this;
+    }
+
+    /**
+     * Get file
+     *
+     * @return string
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
 }

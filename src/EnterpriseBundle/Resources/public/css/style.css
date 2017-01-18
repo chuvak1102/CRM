@@ -65,6 +65,9 @@ html, body {
     /*background-position: -839px 2px;*/
     background-position: -38px -357px;
 }
+#notepad_page{
+    background-position: -759px 2px;
+}
 #important_page{
     background-position: -398px -37px;
 }
@@ -305,12 +308,15 @@ html, body {
 
 .calendar_page {
     width: calc(100% - 20px);
-    margin: 10px;
     height: calc(100% - 20px);
     background-color: #fff;
     border: 1px solid #767676;
     border-radius: 5px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
 }
+
 
 .calendar {
     height: 100%;
@@ -415,8 +421,8 @@ html, body {
     overflow: hidden;
     border: 1px solid #767676;
     border-radius: 5px;
-    /*background-color: rgba(64, 146, 100, 0.75);*/
-    background-color: rgb(204, 243, 255);
+    background-color: rgba(64, 146, 100, 0.75);
+    /*background-color: rgb(204, 243, 255);*/
     /*background-color: rgb(242,245,250);*/
 }
 
@@ -917,7 +923,7 @@ html, body {
 
 .messages_page .right .peoples_add .peoples_single .new_user div {
     color: #42648b;
-    text-align: center;
+    padding-left: 30px;
 }
 
 .messages_page .right .peoples_add .peoples_single .new_user div:hover {
@@ -957,12 +963,182 @@ html, body {
 .search_page {
     width: calc(100% - 20px);
     margin: 10px auto;
-    height: calc(100% - 10px);
+    height: calc(100% - 20px);
     background-color: #fff;
     border: 1px solid #767676;
     border-radius: 5px;
 }
 
+/*NOTEPAD PAGE*/
+
+.notepad_page {
+    width: calc(100% - 20px);
+    height: calc(100% - 20px);
+    background-color: #fff;
+    border: 1px solid #767676;
+    border-radius: 5px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 10px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.notepad_page .notepad_add {
+    background-color: rgb(227, 230, 235);
+    height: 40px;
+    border-radius: 20px 0 0 20px;
+    cursor: pointer;
+    transition: all 0.5s;
+    position: relative;
+}
+
+.notepad_page .notepad_single .notepad_add{
+    border-radius: 0;
+}
+
+.notepad_page .notepad_add:hover {
+    background-color: rgb(147, 191, 243);
+    transition: all 0.5s;
+}
+
+.notepad_page .notepad_single .notepad_add {
+    background-color: rgb(242,245,250);
+}
+
+.notepad_page .notepad_add .round {
+    height: 40px;
+    width: 40px;
+    background-color: rgb(83, 93, 93);
+    border-radius: 50%;
+    text-align: center;
+    color: #fff;
+    line-height: 36px;
+    font-size: 20px;
+    float: left;
+    transition: all 0.5s;
+    font-weight: normal;
+}
+
+.notepad_page .notepad_single .notepad_add{
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+.notepad_page .notepad_add .date {
+    float: right;
+    width: 185px;
+    text-align: left;
+    line-height: 40px;
+    transition: all 0.5s;
+    font-weight: normal;
+    color: #767676;
+    font-size: 14px;
+    padding-right: 10px;
+    height: 30px;
+}
+
+.notepad_page .notepad_add .close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 40px;
+    height: 40px;
+    color: #fff;
+    text-align: center;
+    line-height: 40px;
+    transition: all 0.3s;
+    font-size: 14px;
+}
+
+.notepad_page .notepad_add .close:hover {
+    background-color: rgb(255, 160, 127);
+}
+
+.notepad_page .add_form {
+    margin-left: 10px;
+    height: 400px;
+    background-color: rgb(242,245,250);
+    position: relative;
+    padding: 10px;
+    border-top: 1px solid #767676;
+    display: none;
+}
+
+.notepad_page .add_form input[type="text"] {
+    display: block;
+    width: calc(100% - 300px);
+    height: 30px;
+    border: 1px solid #767676;
+    padding: 0 10px 0 10px;
+    color: #767676;
+    font-size: 14px;
+    margin: auto;
+}
+
+.notepad_page .add_form textarea {
+    width: calc(100% - 300px);
+    margin: 10px auto 0;
+    height: 340px;
+    resize: none;
+    display: block;
+    padding: 10px 10px 60px 10px;
+    border: 1px solid #767676;
+    color: #767676;
+    font-size: 14px;
+}
 
 
+.notepad_page .add_form .round {
+    height: 40px;
+    width: 40px;
+    background-color: rgb(83, 93, 93);
+    border-radius: 50%;
+    text-align: center;
+    color: #fff;
+    line-height: 39px;
+    font-size: 14px;
+    transition: all 0.5s;
+    font-weight: normal;
+    position: absolute;
+    left: 170px;
+    bottom: 20px;
+    text-transform: uppercase;
+    cursor: pointer;
+}
 
+.notepad_page .add_form .round:hover {
+    background-color: rgb(140, 155, 155);
+}
+
+.notepad_page .notepad_add .caption {
+    padding-left: 10px;
+    font-weight: bold;
+    float: left;
+    height: 40px;
+    line-height: 40px;
+    color: #767676;
+    overflow: hidden;
+    width: calc(100% - 200px);
+}
+
+.notepad_page .add_form .colors {
+    position: absolute;
+    bottom: 20px;
+    height: 40px;
+    right: 160px;
+    width: calc(100% - 380px);
+}
+
+.notepad_page .add_form .colors div {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    float: left;
+    margin-right: 10px;
+}
+
+.notepad_page .add_form .colors .active {
+    border: 1px solid #5d5d5d;
+}

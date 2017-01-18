@@ -36,17 +36,6 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/calendar")
-     */
-    public function calendarAction(Request $request){
-        if($request->isXmlHttpRequest()){
-            return $this->render('EnterpriseBundle:Default:calendar.html.twig');
-        } else {
-            throw new \Exception('Get the fuck out of here...');
-        }
-    }
-
-    /**
      * @Route("/workers")
      */
     public function workersAction(Request $request){

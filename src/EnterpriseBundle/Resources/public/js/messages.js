@@ -1,5 +1,3 @@
-
-
 //// search users
 $('#search_people').on('input', function(){
     var name = $(this).val();

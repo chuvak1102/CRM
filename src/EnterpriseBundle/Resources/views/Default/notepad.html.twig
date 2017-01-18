@@ -1,0 +1,50 @@
+{% extends 'EnterpriseBundle:Default:template.html.twig' %}
+{% block content %}
+    <div class="notepad_page">
+        <div class="notepad">
+            <div class="notepad_add" id="notepad_add">
+                <div class="round" id="round">+</div>
+                <div class="caption" id="caption">Notepad</div>
+            </div>
+            <div class="add_form" id="add_form">
+                <input id="notepad_input" type="text" placeholder="Заголовок">
+                <textarea id="notepad_textarea" placeholder="Текст"></textarea>
+                <div class="round" id="notepad_save">ok</div>
+                <div class="colors" id="colors">
+                </div>
+            </div>
+            {% for i in notes %}
+                {% if notes is not empty %}
+                    <div class="notepad_single" id="{{ i.id }}notepad_single">
+                        <div class="notepad_add show" id="{{ i.id }}show">
+                            <div class="date">{{ i.created | date('d-m-Y H:i') }}</div>
+                            <div class="close" id="{{ i.id }}close">x</div>
+                            <div class="caption" id="{{ i.id }}caption">{{ i.header }}</div>
+                        </div>
+                        <div class="add_form" id="{{ i.id }}add_form">
+                            <input id="{{ i.id }}notepad_input" type="text" value="{{ i.header }}">
+                            <textarea id="{{ i.id }}notepad_textarea" >{{ i.message }}</textarea>
+                            <div class="round" id="{{ i.id }}save">ok</div>
+                            <div class="colors" id="{{ i.id }}colors">
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+    {{ parent() }}
+    {% javascripts '@EnterpriseBundle/Resources/public/js/notepad.js' %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script>
+        function getIds(){
+            return  "{{ ids }}";
+        }
+        function getColors(){
+            return  "{{ colors }}";
+        }
+    </script>
+{% endblock %}

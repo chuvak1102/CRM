@@ -34,6 +34,7 @@ class DialogUsersRepository extends EntityRepository {
                  WITH u.last_dialog = m.dialog
                  WHERE m.dialog = :dialog
                  AND h.hiddenBy IS NULL
+                 GROUP BY m.id
                  ORDER BY m.created ASC
                  '
             )

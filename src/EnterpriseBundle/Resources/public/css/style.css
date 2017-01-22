@@ -1022,7 +1022,6 @@ html, body {
 }
 
 .notepad_page .notepad_single .notepad_add{
-    margin-left: 10px;
     margin-top: 10px;
 }
 
@@ -1057,7 +1056,6 @@ html, body {
 }
 
 .notepad_page .add_form {
-    margin-left: 10px;
     height: 400px;
     background-color: rgb(242,245,250);
     position: relative;

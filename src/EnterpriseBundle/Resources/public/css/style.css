@@ -6,7 +6,7 @@
     text-decoration: none;
     outline: none;
     list-style: none;
-    user-select: none;
+    /*user-select: none;*/
 }
 html, body {
     height: 100%;
@@ -1139,4 +1139,56 @@ html, body {
 
 .notepad_page .add_form .colors .active {
     border: 1px solid #5d5d5d;
+}
+
+/* DOCUMENTS PAGE */
+
+.documents_page {
+    width: calc(100% - 20px);
+    height: calc(100% - 20px);
+    background-color: #fff;
+    border: 1px solid #767676;
+    border-radius: 5px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 10px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.documents_page .documents_single {
+    height: 21px;
+    background-color: #aaaaaa;
+    margin-bottom: 10px;
+}
+
+.documents_page .documents_single .seller {
+    width: 400px;
+    float: left;
+    color: #fff;
+    height: 21px;
+    line-height: 20px;
+}
+
+.documents_page .documents_single input[type="file"]{
+    float: right;
+    height: 21px;
+    width: 300px;
+}
+
+.documents_page .documents_single .parse {
+    width: 100px;
+    height: 21px;
+    background-color: #50506d;
+    text-align: center;
+    color: #fff;
+    float: right;
+    line-height: 20px;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.documents_page .documents_single .parse:hover {
+    background-color: #9aff97;
 }

@@ -69,17 +69,6 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/documents")
-     */
-    public function documentsAction(Request $request){
-        if($request->isXmlHttpRequest()){
-            return $this->render('EnterpriseBundle:Default:documents.html.twig');
-        } else {
-            throw new \Exception('Get the fuck out of here...');
-        }
-    }
-
-    /**
      * @Route("/groups")
      */
     public function groupsAction(Request $request){

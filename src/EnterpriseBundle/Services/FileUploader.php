@@ -5,13 +5,14 @@ class FileUploader {
 
     protected $root = '/var/www/job/web/';
     protected $maxsize = '3mb'; //(int) kb, gb, mb
-    protected $allowed = ['rar','zip','doc','docx', 'mp3', 'xls', 'jpg', 'png', 'gif', 'jpeg', 'txt'];
+    protected $allowed = ['rar','zip','doc','docx', 'mp3', 'xls','xlsx', 'jpg', 'png', 'gif', 'jpeg', 'txt'];
     protected $path = array(
         'rar' => 'files/documents/',
         'zip' => 'files/documents/',
         'doc' => 'files/documents/',
         'docx' => 'files/documents/',
         'xls' => 'files/documents/',
+        'xlsx' => 'files/documents/',
         'txt' => 'files/documents/',
         'jpg' => 'files/images/',
         'png' => 'files/images/',
@@ -31,6 +32,24 @@ class FileUploader {
         if($goodName && $goodSize && $goodType){
 
             return $this->persist($file);
+        } else {
+
+            return array(
+                'name' => $goodName,
+                'size' => $goodSize,
+                'type' => $goodType
+            );
+        }
+    }
+
+    public function check($file){
+        $goodName = $this->checkName($file);
+        $goodType = $this->checkType($file);
+        $goodSize = $this->checkSize($file);
+
+        if($goodName && $goodSize && $goodType){
+
+            return $file;
         } else {
 
             return array(
@@ -124,7 +143,8 @@ class FileUploader {
             mkdir($this->root.$path, 0755);
             if(is_dir($this->root.$path)){
                 move_uploaded_file($file['tmp_name'], $uploadedFile);
-                return $path.$name.'.'.$exe;
+//                return $path.$name.'.'.$exe;
+                return $name.'.'.$exe;
             } else {
                 return array('can not create directory' => $path);
             }

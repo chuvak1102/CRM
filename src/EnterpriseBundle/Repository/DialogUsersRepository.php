@@ -24,14 +24,12 @@ class DialogUsersRepository extends EntityRepository {
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT (m.id), (m.dialog), (m.message), (m.created), (m.author), (u.fullname), (i.importantFor), (h.hiddenBy), (m.file)
+                'SELECT (m.id), (m.dialog), (m.message), (m.created), (m.author), (m.authorName), (i.importantFor), (h.hiddenBy), (m.file)
                  FROM EnterpriseBundle:Messages m
                  LEFT JOIN EnterpriseBundle:MessageHidden h
                  WITH m.id = h.message_id
                  LEFT JOIN EnterpriseBundle:MessageImportant i
                  WITH i.message = m.id
-                 LEFT JOIN EnterpriseBundle:Users u
-                 WITH u.last_dialog = m.dialog
                  WHERE m.dialog = :dialog
                  AND h.hiddenBy IS NULL
                  GROUP BY m.id

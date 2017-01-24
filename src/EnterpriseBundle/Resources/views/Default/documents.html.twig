@@ -1,4 +1,28 @@
 {% extends 'EnterpriseBundle:Default:template.html.twig' %}
 {% block content %}
-    DOCUMENTS
+    <div class="documents_page">
+        <div class="documents">
+            <div class="documents_single">
+                <div class="seller">http://www.inspiritcompany.ru/</div>
+                <div class="parse" id="1parse">parse</div>
+                <input type="file" id="1">
+            </div>
+
+            <div class="documents_single">
+                <div class="seller">https://sex-opt.ru/</div>
+                <div class="parse" id="2parse">parse</div>
+                <input type="file" id="2">
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+    {{ parent() }}
+    {% javascripts
+    '@EnterpriseBundle/Resources/public/js/documents.js' %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script>
+
+    </script>
 {% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'EnterpriseBundle:Default:template.html.twig' %}
+{% block content %}
+    <div class="excel_page">
+        <div class="excel">
+
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+    {{ parent() }}
+    {% javascripts '@EnterpriseBundle/Resources/public/js/excel.js' %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script>
+
+    </script>
+{% endblock %}

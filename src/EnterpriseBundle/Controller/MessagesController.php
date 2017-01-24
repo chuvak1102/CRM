@@ -45,7 +45,7 @@ class MessagesController extends Controller {
      */
     public function indexAction(Request $request){
 
-//        if($request->isXmlHttpRequest()){
+        if($request->isXmlHttpRequest()){
 
             $dRepo = $this->getDoctrine()->getRepository('EnterpriseBundle:DialogUsers');
             $messages = $dRepo->getMessagesInLastDialog($this->getCurrUser()->getLastDialog());
@@ -64,9 +64,9 @@ class MessagesController extends Controller {
                 'currUser' => $this->getCurrUser()->getId()
             ));
 
-//        } else {
-//            throw new \Exception('Ajax only!');
-//        }
+        } else {
+            throw new \Exception('Ajax only!');
+        }
     }
 
     /**

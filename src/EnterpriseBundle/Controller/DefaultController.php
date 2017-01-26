@@ -36,6 +36,15 @@ class DefaultController extends Controller
     }
 
     /**
+     * @Route("/default")
+     */
+    public function defaultAction(){
+
+        return $this->render('::base.html.twig');
+
+    }
+
+    /**
      * @Route("/workers")
      */
     public function workersAction(Request $request){

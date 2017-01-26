@@ -1,6 +1,10 @@
 /web/bundles/
 /web/files/
+/web/public/css/
+/web/public/js/
+/web/public/images/
 /app/bootstrap.php.cache
+/app/Resources/views/default/
 /app/cache/*
 /app/config/parameters.yml
 /app/logs/*

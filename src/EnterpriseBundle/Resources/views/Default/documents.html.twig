@@ -2,6 +2,7 @@
 {% block content %}
     <div class="documents_page">
         <div class="documents">
+
             <div class="documents_single">
                 <div class="seller">http://www.inspiritcompany.ru/</div>
                 <div class="parse" id="1parse">parse</div>
@@ -13,8 +14,54 @@
                 <div class="parse" id="2parse">parse</div>
                 <input type="file" id="2">
             </div>
+
+            <table class="custom_excel">
+                <tr>
+                    <td>Код продукта</td>
+                    <td>Категория</td>
+                    <td>Код категории</td>
+                    <td>Артикул</td>
+                    <td>Название</td>
+                    <td>Цена</td>
+                    <td>Оптовая цена</td>
+                    <td>Кастом цена 1</td>
+                    <td>Кастом цена 2</td>
+                    <td>Тип продукта</td>
+                    <td>Скидка</td>
+                    <td>Страна</td>
+                    <td>Изображение</td>
+                    <td>Описание</td>
+                    <td>Страница продукта</td>
+                    <td>Количество</td>
+                </tr>
+                <tr>
+                    <td class="droppable"></td>
+                    <td class="droppable"></td>
+                    <td class="droppable"></td>
+                    <td class="droppable"></td>
+                    <td class="droppable"></td>
+                    <td class="droppable"></td>
+                    <td class="droppable"></td>
+                    <td class="droppable"></td>
+                    <td class="droppable"></td>
+                    <td class="droppable"></td>
+                    <td class="droppable"></td>
+                    <td class="droppable"></td>
+                    <td class="droppable"></td>
+                    <td class="droppable"></td>
+                    <td class="droppable"></td>
+                    <td class="droppable"></td>
+                </tr>
+            </table>
+
         </div>
+        <div class="clear"></div>
+        <div id="fields">
+
+        </div>
+        <div id="prepare">prepare</div>
     </div>
+    {#{{ dump() }}#}
 {% endblock %}
 {% block script %}
     {{ parent() }}
@@ -22,7 +69,4 @@
     '@EnterpriseBundle/Resources/public/js/documents.js' %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
-    <script>
-
-    </script>
 {% endblock %}

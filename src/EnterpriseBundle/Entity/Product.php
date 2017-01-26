@@ -82,15 +82,11 @@ class Product {
      */
     private $description;
     /**
-     * @ORM\Column(type="string", length=500, nullable=true)
-     */
-    private $prod_code;
-    /**
      * @ORM\Column(type="text", length=1000, nullable=true)
      */
     private $item_page;
     /**
-     * @ORM\Column(type="integer", length=10, nullable=true)
+     * @ORM\Column(type="string", length=10, nullable=true)
      */
     private $quantity;
 
@@ -443,30 +439,6 @@ class Product {
     }
 
     /**
-     * Set prodCode
-     *
-     * @param string $prodCode
-     *
-     * @return Product
-     */
-    public function setProdCode($prodCode)
-    {
-        $this->prod_code = $prodCode;
-
-        return $this;
-    }
-
-    /**
-     * Get prodCode
-     *
-     * @return string
-     */
-    public function getProdCode()
-    {
-        return $this->prod_code;
-    }
-
-    /**
      * Set itemPage
      *
      * @param string $itemPage
@@ -493,7 +465,7 @@ class Product {
     /**
      * Set quantity
      *
-     * @param integer $quantity
+     * @param string $quantity
      *
      * @return Product
      */
@@ -507,7 +479,7 @@ class Product {
     /**
      * Get quantity
      *
-     * @return integer
+     * @return string
      */
     public function getQuantity()
     {

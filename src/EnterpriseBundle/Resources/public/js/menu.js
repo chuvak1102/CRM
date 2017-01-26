@@ -20,7 +20,7 @@ function expand(response){
 
 $('#messages_page').click(function(e){
     $.ajax({
-        url: "/messages",
+        url: "/admin/messages",
         success: function(response){
             expand(response);
         }
@@ -29,7 +29,7 @@ $('#messages_page').click(function(e){
 
 $('#calendar_page').click(function(e){
     $.ajax({
-        url: "/calendar",
+        url: "/admin/calendar",
         success: function(response){
             expand(response);
         }
@@ -38,7 +38,7 @@ $('#calendar_page').click(function(e){
 
 $('#notepad_page').click(function(e){
     $.ajax({
-        url: "/notepad",
+        url: "/admin/notepad",
         success: function(response){
             expand(response);
         }
@@ -47,7 +47,7 @@ $('#notepad_page').click(function(e){
 
 $('#card_page').click(function(e){
     $.ajax({
-        url: "/card",
+        url: "/admin/card",
         success: function(response){
             expand(response);
         }
@@ -56,7 +56,7 @@ $('#card_page').click(function(e){
 
 $('#delivery_page').click(function(e){
     $.ajax({
-        url: "/delivery",
+        url: "/admin/delivery",
         success: function(response){
             expand(response);
         }
@@ -65,7 +65,7 @@ $('#delivery_page').click(function(e){
 
 $('#documents_page').click(function(e){
     $.ajax({
-        url: "/documents",
+        url: "/admin/documents",
         success: function(response){
             expand(response);
         }
@@ -74,7 +74,7 @@ $('#documents_page').click(function(e){
 
 $('#groups_page').click(function(e){
     $.ajax({
-        url: "/groups",
+        url: "/admin/groups",
         success: function(response){
             expand(response);
         }
@@ -93,7 +93,7 @@ $('#important_page').click(function(e){
 
 $('#recycle_page').click(function(e){
     $.ajax({
-        url: "/recycle",
+        url: "/admin/recycle",
         success: function(response){
             expand(response);
         }
@@ -102,7 +102,7 @@ $('#recycle_page').click(function(e){
 
 $('#search_page').click(function(e){
     $.ajax({
-        url: "/search",
+        url: "/admin/search",
         success: function(response){
             expand(response);
         }
@@ -111,7 +111,7 @@ $('#search_page').click(function(e){
 
 $('#settings_page').click(function(e){
     $.ajax({
-        url: "/settings",
+        url: "/admin/settings",
         success: function(response){
             expand(response);
         }
@@ -120,7 +120,7 @@ $('#settings_page').click(function(e){
 
 $('#workers_page').click(function(e){
     $.ajax({
-        url: "/workers",
+        url: "/admin/workers",
         success: function(response){
             expand(response);
         }

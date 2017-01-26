@@ -6,7 +6,7 @@ $('#search_people').on('input', function(){
     availUsers.empty();
     if(name.length > 2 || name.length == 0){
         $.ajax({
-            url : '/messages/search',
+            url : '/admin/messages/search',
             data : {
                 name : name
             },
@@ -75,7 +75,7 @@ $('#confirm').click(function(){
     }
     if(users.length > 0){
         $.ajax({
-            url : '/messages/newchat',
+            url : '/admin/messages/newchat',
             data : {
                 users : users,
                 dialog_name : dialog_name
@@ -96,7 +96,7 @@ $('#confirm').click(function(){
 function sendMessage(){
     var dialog = window.lastDialog;
     $.ajax({
-        url : '/messages/newmessage/'+dialog,
+        url : '/admin/messages/newmessage/'+dialog,
         data : {
             message : $('textarea').val()
         },
@@ -125,7 +125,7 @@ $('textarea').keyup(function(e){
 
     if(e.which == 13 && enterSent && length > 1){
         $.ajax({
-            url : '/messages/newmessage/'+dialog,
+            url : '/admin/messages/newmessage/'+dialog,
             data : {
                 'message' : $(this).val()
             },
@@ -134,7 +134,7 @@ $('textarea').keyup(function(e){
                 update();
                 if(window.form){
                     $.ajax({
-                        url: '/messages/fileupload',
+                        url: '/admin/messages/fileupload',
                         type: 'POST',
                         data: window.form,
                         processData: false,
@@ -180,7 +180,7 @@ function update(){
     $('#'+dialog).addClass('active');
     if(dialog){
         $.ajax({
-            url : '/messages/update/'+dialog,
+            url : '/admin/messages/update/'+dialog,
             data : {
                 dialog : dialog
             },
@@ -206,7 +206,7 @@ $('#search_btn').click(function(){
     availUsers.empty();
     if(mess.is(':visible')){
         $.ajax({
-            url : '/messages/allusers',
+            url : '/admin/messages/allusers',
             success : function(response){
                 for(var i = 0; i < response.id.length; i++){
                     var exist = $('#prepare_dialog')
@@ -256,7 +256,7 @@ $('.href span').click(function(e){
     var id = elem.attr('id');
     window.lastDialog = null;
     $.ajax({
-        url : '/messages/hide/'+id,
+        url : '/admin/messages/hide/'+id,
         success : function(response){
             $('#content').html(response);
         }
@@ -282,7 +282,7 @@ function getSelectedMessages(){
 $('#remove').click(function(){
     var ids = getSelectedMessages();
     $.ajax({
-        url : '/messages/removemessages',
+        url : '/admin/messages/removemessages',
         data : {
             "messages" : ids
         },
@@ -296,7 +296,7 @@ $('#remove').click(function(){
 $('#important').click(function(){
     var ids = getSelectedMessages();
     $.ajax({
-        url : '/messages/important',
+        url : '/admin/messages/important',
         data : {
             "messages" : ids
         },
@@ -314,7 +314,7 @@ $('#peoples').on('click', '.peoples_single', function(e){
     var dialog = window.lastDialog;
     if(user && dialog){
         $.ajax({
-            url : '/messages/removeuser/'+user+'/'+dialog,
+            url : '/admin/messages/removeuser/'+user+'/'+dialog,
             success : function(response){
                 $('#content').html(response);
             }
@@ -331,7 +331,7 @@ $('#invite_to_dialog').on('input', function(){
     availUsers.empty();
     if(name.length > 2 || name.length == 0){
         $.ajax({
-            url : '/messages/search',
+            url : '/admin/messages/search',
             data : {
                 name : name
             },
@@ -356,7 +356,7 @@ $('#invite_user').on('click', 'div.results', function(e){
     var user = parseInt(e.target.id);
     if(dialog && user){
         $.ajax({
-            url : '/messages/invite/'+user+'/'+dialog,
+            url : '/admin/messages/invite/'+user+'/'+dialog,
             success : function(response){
                 $('#content').html(response);
             }

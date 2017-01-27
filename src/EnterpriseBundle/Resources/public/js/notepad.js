@@ -39,7 +39,7 @@ $('#notepad_save').click(function(){
     var color = $('#add_form').find(' div.active').attr('id');
     if(header && text && color){
         $.ajax({
-            url : '/notepad/add',
+            url : '/admin/notepad/add',
             data : {
                 'header' : header,
                 'text' : text,
@@ -125,7 +125,7 @@ $('.round').click(function(e){
         .attr('id');
     if(header && text && color){
         $.ajax({
-            url : '/notepad/edit/'+id,
+            url : '/admin/notepad/edit/'+id,
             data : {
                 'header' : header,
                 'text' : text,
@@ -144,7 +144,7 @@ $('.close').click(function(e){
     var id = parseInt($(e.target).attr('id'));
     $('#'+id+'notepad_single').remove();
     $.ajax({
-        url : '/notepad/close/'+id,
+        url : '/admin/notepad/close/'+id,
         success : function(response){
         }
     });

@@ -2,7 +2,7 @@
 /web/files/
 /web/public/
 /app/bootstrap.php.cache
-/app/Resources/views/default/*
+/app/Resources/views/*
 /app/cache/*
 /app/config/parameters.yml
 /app/logs/*

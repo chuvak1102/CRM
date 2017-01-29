@@ -1,0 +1,114 @@
+<?php
+namespace EnterpriseBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="dialog_link")
+ */
+class DialogLink {
+
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $user_id;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $dialog_alias;
+
+    /**
+     * @ORM\Column(type="smallint", length=1)
+     */
+    private $hidden = 0;
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set user_id
+     *
+     * @param integer $userId
+     * @return DialogLink
+     */
+    public function setUserId($userId)
+    {
+        $this->user_id = $userId;
+
+        return $this;
+    }
+
+    /**
+     * Get user_id
+     *
+     * @return integer 
+     */
+    public function getUserId()
+    {
+        return $this->user_id;
+    }
+
+    /**
+     * Set dialog_alias
+     *
+     * @param string $dialogAlias
+     * @return DialogLink
+     */
+    public function setDialogAlias($dialogAlias)
+    {
+        $this->dialog_alias = $dialogAlias;
+
+        return $this;
+    }
+
+    /**
+     * Get dialog_alias
+     *
+     * @return string 
+     */
+    public function getDialogAlias()
+    {
+        return $this->dialog_alias;
+    }
+
+    /**
+     * Set hidden
+     *
+     * @param integer $hidden
+     * @return DialogLink
+     */
+    public function setHidden($hidden)
+    {
+        $this->hidden = $hidden;
+
+        return $this;
+    }
+
+    /**
+     * Get hidden
+     *
+     * @return integer 
+     */
+    public function getHidden()
+    {
+        return $this->hidden;
+    }
+}

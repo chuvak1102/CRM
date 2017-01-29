@@ -8,7 +8,7 @@ use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use EnterpriseBundle\Entity\Seller;
-use EnterpriseBundle\Entity\Product;
+use EnterpriseBundle\Entity\SellerProduct;
 use PHPExcel_IOFactory;
 use PHPExcel_Cell;
 
@@ -35,7 +35,7 @@ class DocumentsController extends Controller
     public function indexAction(Request $request){
         if($request->isXmlHttpRequest()){
 
-            $product = new Product;
+            $product = new SellerProduct;
             $product->setQuantity('Quantity');
             $product->setName('Name');
             $product->setPrice('Price');
@@ -116,7 +116,7 @@ class DocumentsController extends Controller
             $price = $phpExcelObject->setActiveSheetIndex(0)->getCellByColumnAndRow(6,$i);
             $quantity = $phpExcelObject->setActiveSheetIndex(0)->getCellByColumnAndRow(7,$i);
 
-            $product = new Product;
+            $product = new SellerProduct;
             $product->setSeller($seller);
             $product->setCode($code);
             $product->setVendorCode($vendor);

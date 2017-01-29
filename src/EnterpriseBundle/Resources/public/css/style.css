@@ -17,6 +17,21 @@ html, body {
     height: 100%;
     width: 100%;
 }
+
+.index {
+    width: calc(100% - 20px);
+    height: calc(100% - 20px);
+    background-color: #fff;
+    border: 1px solid #767676;
+    border-radius: 5px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 10px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
 .menu {
     background-color: #B8B8B8;
     height: 100%;
@@ -70,6 +85,9 @@ html, body {
 }
 #important_page{
     background-position: -398px -37px;
+}
+#constructor_page{
+    background-position: -79px -398px;
 }
 #settings_page{
     background-position: -21px 0;
@@ -307,14 +325,14 @@ html, body {
 /* CALENDAR */
 
 .calendar_page {
-    width: calc(100% - 20px);
-    height: calc(100% - 20px);
-    background-color: #fff;
-    border: 1px solid #767676;
-    border-radius: 5px;
-    position: absolute;
-    top: 10px;
-    left: 10px;
+    /*width: calc(100% - 20px);*/
+    /*height: calc(100% - 20px);*/
+    /*background-color: #fff;*/
+    /*border: 1px solid #767676;*/
+    /*border-radius: 5px;*/
+    /*position: absolute;*/
+    /*top: 10px;*/
+    /*left: 10px;*/
 }
 
 
@@ -327,8 +345,8 @@ html, body {
 .calendar .month_name {
     table-layout: fixed;
     border-collapse: collapse;
-    width: calc(100% - 20px);
-    margin: 10px auto;
+    width: 100%;
+    margin: 0 auto 10px;
     height: 30px;
     background-color: rgba(0, 136, 204, 0.41);
 }
@@ -350,7 +368,7 @@ html, body {
 .calendar .day_names {
     table-layout: fixed;
     border-collapse: collapse;
-    width: calc(100% - 20px);
+    width: 100%;
     margin: auto;
     height: 30px;
     /*background-color: rgba(0, 136, 204, 0.41);*/
@@ -362,10 +380,8 @@ html, body {
 }
 
 .calendar .wrap {
-    height: calc(100% - 90px);
-    position: absolute;
-    width: calc(100% - 20px);
-    left: 10px;
+    height: calc(100% - 60px);
+    width: 100%;
 }
 
 .calendar .days {
@@ -971,20 +987,6 @@ html, body {
 
 /*NOTEPAD PAGE*/
 
-.notepad_page {
-    width: calc(100% - 20px);
-    height: calc(100% - 20px);
-    background-color: #fff;
-    border: 1px solid #767676;
-    border-radius: 5px;
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    padding: 10px;
-    overflow-x: hidden;
-    overflow-y: auto;
-}
-
 .notepad_page .notepad_add {
     background-color: rgb(227, 230, 235);
     height: 40px;
@@ -1143,20 +1145,6 @@ html, body {
 
 /* DOCUMENTS PAGE */
 
-.documents_page {
-    width: calc(100% - 20px);
-    height: calc(100% - 20px);
-    background-color: #fff;
-    border: 1px solid #767676;
-    border-radius: 5px;
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    padding: 10px;
-    overflow-x: hidden;
-    overflow-y: auto;
-}
-
 .documents_page .documents_single {
     height: 21px;
     background-color: #aaaaaa;
@@ -1232,4 +1220,90 @@ html, body {
     cursor: move;
     margin: 1px;
     padding: 10px;
+}
+
+/* CONSTRUCTOR PAGE */
+
+
+.constructor_page .static_pages {
+    background-color: rgb(227, 230, 235);
+    height: 40px;
+    cursor: pointer;
+    transition: all 0.5s;
+    position: relative;
+    font-size: 14px;
+    padding-left: 10px;
+    font-weight: bold;
+    line-height: 40px;
+    color: #767676;
+}
+
+.constructor_page .add_form .left .round {
+    height: 40px;
+    width: 40px;
+    background-color: rgb(83, 93, 93);
+    border-radius: 50%;
+    text-align: center;
+    color: #fff;
+    line-height: 39px;
+    font-size: 14px;
+    transition: all 0.5s;
+    font-weight: normal;
+    position: absolute;
+    left: 20px;
+    bottom: 20px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: none;
+}
+
+.constructor_page .left {
+    width: 70%;
+    border: 1px solid #767676;
+    float: left;
+    height: 400px;
+    position: relative;
+}
+.constructor_page .right {
+    width: 30%;
+    border: 1px solid #767676;
+    border-left: none;
+    float: right;
+    height: 400px;
+    overflow-y: auto;
+}
+
+.constructor_page .right .static_single {
+    width: calc(100% - 20px);
+    height: 30px;
+    border: 1px solid #767676;
+    padding: 0 10px 0 10px;
+    color: #767676;
+    font-size: 14px;
+    margin: 10px auto;
+    line-height: 27px;
+    background-color: rgb(227, 230, 235);
+}
+
+.constructor_page .add_form input[type="text"] {
+    display: block;
+    width: calc(100% - 20px);
+    height: 30px;
+    border: 1px solid #767676;
+    padding: 0 10px 0 10px;
+    color: #767676;
+    font-size: 14px;
+    margin: 10px auto;
+}
+
+.constructor_page .add_form textarea {
+    width: calc(100% - 20px);
+    margin: 10px auto 0;
+    height: 338px;
+    resize: none;
+    display: block;
+    padding: 10px 10px 60px 10px;
+    border: 1px solid #767676;
+    color: #767676;
+    font-size: 14px;
 }

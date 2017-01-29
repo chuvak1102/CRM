@@ -1,6 +1,6 @@
 {% extends 'EnterpriseBundle:Default:template.html.twig' %}
 {% block content %}
-    <div class="calendar_page">
+    <div class="calendar_page index">
         <div class="calendar">
             <table class="month_name">
                 <tr>
@@ -11,7 +11,15 @@
             </table>
             <div class="clear"></div>
             <table class="day_names">
-                <tr><th>MON</th><th>TUE</th><th>WED</th><th>THU</th><th>FRI</th><th>SAT</th><th>SUN</th></tr>
+                <tr>
+                    <th>MON</th>
+                    <th>TUE</th>
+                    <th>WED</th>
+                    <th>THU</th>
+                    <th>FRI</th>
+                    <th>SAT</th>
+                    <th>SUN</th>
+                </tr>
             </table>
             <div class="wrap">
                 <table class="days" id="calendar"></table>

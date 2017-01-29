@@ -3,7 +3,7 @@ namespace EnterpriseBundle\Services;
 
 class FileUploader {
 
-    protected $root = '/var/www/job/web/';
+    protected $root = '/var/www/';
     protected $maxsize = '3mb'; //(int) kb, gb, mb
     protected $allowed = ['rar','zip','doc','docx', 'mp3', 'xls','xlsx', 'jpg', 'png', 'gif', 'jpeg', 'txt'];
     protected $path = array(
@@ -132,6 +132,11 @@ class FileUploader {
         $name = $this->generateName($file);
         $exe = $this->getExtension($file);
         $path = $this->getPath($file);
+
+        $rootDir = $_SERVER['DOCUMENT_ROOT'].'/';
+
+        $this->root = $rootDir;
+
         $uploadedFile = $this->root.$path.$name.'.'.$exe;
 
         $dirExist = is_dir($this->root.$path);

@@ -19,5 +19,13 @@ class DefaultController extends Controller
 
     }
 
+    /**
+     * @Route("/{path}", requirements={"path" = "[a-z\-]+"})
+     */
+    public function staticAction(Request $request)
+    {
+        return $this->render(':default:'.$request->get('path').'.html.twig');
+    }
+
 }
 

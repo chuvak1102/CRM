@@ -16,7 +16,7 @@ $('.parse').click(function(e){
 
     if(window.form && window.id){
         $.ajax({
-            url: '/documents/parse/'+id,
+            url: '/admin/documents/parse/'+id,
             type: 'POST',
             data: window.form,
             processData: false,
@@ -38,7 +38,7 @@ $('#prepare').click(function(e){
 
     if(window.form && window.id){
         $.ajax({
-            url: '/documents/excelprepare',
+            url: '/admin/documents/excelprepare',
             type: 'POST',
             data: window.form,
             processData: false,

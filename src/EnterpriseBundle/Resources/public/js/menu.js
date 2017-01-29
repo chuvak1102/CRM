@@ -45,9 +45,18 @@ $('#notepad_page').click(function(e){
     });
 });
 
-$('#card_page').click(function(e){
+$('#documents_page').click(function(e){
     $.ajax({
-        url: "/admin/card",
+        url: "/admin/documents",
+        success: function(response){
+            expand(response);
+        }
+    });
+});
+
+$('#constructor_page').click(function(e){
+    $.ajax({
+        url: "/admin/constructor",
         success: function(response){
             expand(response);
         }
@@ -63,52 +72,6 @@ $('#delivery_page').click(function(e){
     });
 });
 
-$('#documents_page').click(function(e){
-    $.ajax({
-        url: "/admin/documents",
-        success: function(response){
-            expand(response);
-        }
-    });
-});
-
-$('#groups_page').click(function(e){
-    $.ajax({
-        url: "/admin/groups",
-        success: function(response){
-            expand(response);
-        }
-    });
-});
-
-$('#important_page').click(function(e){
-    $.ajax({
-        success: function(response){
-            expand(response.time);
-        }
-    });
-});
-
-
-
-$('#recycle_page').click(function(e){
-    $.ajax({
-        url: "/admin/recycle",
-        success: function(response){
-            expand(response);
-        }
-    });
-});
-
-$('#search_page').click(function(e){
-    $.ajax({
-        url: "/admin/search",
-        success: function(response){
-            expand(response);
-        }
-    });
-});
-
 $('#settings_page').click(function(e){
     $.ajax({
         url: "/admin/settings",
@@ -118,13 +81,66 @@ $('#settings_page').click(function(e){
     });
 });
 
-$('#workers_page').click(function(e){
-    $.ajax({
-        url: "/admin/workers",
-        success: function(response){
-            expand(response);
-        }
-    });
-});
+
+
+
+//$('#card_page').click(function(e){
+//    $.ajax({
+//        url: "/admin/card",
+//        success: function(response){
+//            expand(response);
+//        }
+//    });
+//});
+//
+
+//
+//
+//
+//$('#groups_page').click(function(e){
+//    $.ajax({
+//        url: "/admin/groups",
+//        success: function(response){
+//            expand(response);
+//        }
+//    });
+//});
+//
+//$('#important_page').click(function(e){
+//    $.ajax({
+//        success: function(response){
+//            expand(response.time);
+//        }
+//    });
+//});
+//
+//
+//
+//$('#recycle_page').click(function(e){
+//    $.ajax({
+//        url: "/admin/recycle",
+//        success: function(response){
+//            expand(response);
+//        }
+//    });
+//});
+//
+//$('#search_page').click(function(e){
+//    $.ajax({
+//        url: "/admin/search",
+//        success: function(response){
+//            expand(response);
+//        }
+//    });
+//});
+//
+//$('#workers_page').click(function(e){
+//    $.ajax({
+//        url: "/admin/workers",
+//        success: function(response){
+//            expand(response);
+//        }
+//    });
+//});
 
 

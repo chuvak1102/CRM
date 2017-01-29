@@ -38,8 +38,8 @@ services:
         calls:
             - [ setAnnotationReader, [ "@annotation_reader" ] ]
 
-    mhelper:
-        class: EnterpriseBundle\Services\MessagesHelper
-
     file_uploader:
         class: EnterpriseBundle\Services\FileUploader
+        
+    template_generator:
+        class: EnterpriseBundle\Services\TemplateGenerator

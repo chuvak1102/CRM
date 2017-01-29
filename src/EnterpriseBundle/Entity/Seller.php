@@ -44,7 +44,7 @@ class Seller {
     private $created;
 
     /**
-     * @ORM\OneToMany(targetEntity="EnterpriseBundle\Entity\Product", mappedBy="seller")
+     * @ORM\OneToMany(targetEntity="EnterpriseBundle\Entity\SellerProduct", mappedBy="seller")
      */
     private $products;
 
@@ -189,11 +189,11 @@ class Seller {
     /**
      * Add product
      *
-     * @param \EnterpriseBundle\Entity\Product $product
+     * @param \EnterpriseBundle\Entity\SellerProduct $product
      *
      * @return Seller
      */
-    public function addProduct(\EnterpriseBundle\Entity\Product $product)
+    public function addProduct(\EnterpriseBundle\Entity\SellerProduct $product)
     {
         $this->products[] = $product;
 
@@ -203,9 +203,9 @@ class Seller {
     /**
      * Remove product
      *
-     * @param \EnterpriseBundle\Entity\Product $product
+     * @param \EnterpriseBundle\Entity\SellerProduct $product
      */
-    public function removeProduct(\EnterpriseBundle\Entity\Product $product)
+    public function removeProduct(\EnterpriseBundle\Entity\SellerProduct $product)
     {
         $this->products->removeElement($product);
     }

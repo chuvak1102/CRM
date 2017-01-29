@@ -27,18 +27,16 @@ class DefaultController extends Controller
     public function indexAction()
     {
         $user = $this->getCurrUser();
-//        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this page!');
+
         if($user == 'anon.'){
 
             return $this->redirectToRoute('fos_user_security_login');
         } else {
 
             return $this->render('EnterpriseBundle:Default:base.html.twig', array(
-                'user' => $user->getId(),
-//                'lastdialog' => $user->getLastDialog()
+                'user' => $user->getId()
             ));
         }
-
     }
 
     /**

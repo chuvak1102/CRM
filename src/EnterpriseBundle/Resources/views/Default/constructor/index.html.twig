@@ -1,0 +1,28 @@
+{% extends 'EnterpriseBundle:Default:template.html.twig' %}
+{% block content %}
+    <div class="constructor_page index">
+        <div class="constructor">
+            <div class="static_pages">Static Pages</div>
+            <div class="add_form" id="add_form">
+                <div class="left">
+                    <form action="#">
+                        <input id="static_url" pattern="^[a-z\-]+$" type="text" placeholder="URL, [a-z\-]">
+                        <textarea id="static_html" placeholder="HTML(Optional)"></textarea>
+                        <input id="save_static" class="round" type="submit" value="ok">
+                    </form>
+                </div>
+                <div class="right">
+                    {% for i in static %}
+                        <div class="static_single">{{ i.title }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+    {{ parent() }}
+    {% javascripts '@EnterpriseBundle/Resources/public/js/constructor.js' %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}

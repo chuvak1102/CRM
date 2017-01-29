@@ -3,6 +3,8 @@
 /web/public/
 /app/bootstrap.php.cache
 /app/Resources/views/default/*
+!app/Resources/views/default/base.html.twig
+!app/Resources/views/default/index.html.twig
 /app/cache/*
 /app/config/parameters.yml
 /app/logs/*

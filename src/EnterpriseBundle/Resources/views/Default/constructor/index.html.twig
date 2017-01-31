@@ -7,13 +7,14 @@
                 <div class="left">
                     <form action="#">
                         <input id="static_url" pattern="^[a-z\-]+$" type="text" placeholder="URL, [a-z\-]">
+                        <input id="static_name" type="text" placeholder="Название">
                         <textarea id="static_html" placeholder="HTML(Optional)"></textarea>
                         <input id="save_static" class="round" type="submit" value="ok">
                     </form>
                 </div>
                 <div class="right">
                     {% for i in static %}
-                        <div class="static_single">{{ i.title }}</div>
+                        <a class="static_single" href="/{{ i.title }}" target="_blank">{{ i.canonical }} => /{{ i.title }}</a>
                     {% endfor %}
                 </div>
             </div>

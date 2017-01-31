@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * @ORM\Entity
  * @ORM\Table(name="dc_seller")
+ * @ORM\Entity(repositoryClass="EnterpriseBundle\Repository\SellerRepository")
  */
 class Seller {
 

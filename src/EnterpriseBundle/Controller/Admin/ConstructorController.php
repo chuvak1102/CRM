@@ -55,13 +55,14 @@ class ConstructorController extends Controller
 
         $constructor = $this->get('template_generator');
         $template = $constructor
-            ->createStatic($request->get('name'), $request->get('html'));
+            ->createStatic($request->get('template'), $request->get('html'));
 
         if($template->templateName){
 
             if(!$template->exist){
                 $static = new StaticPage;
-                $static->setTitle($request->get('name'));
+                $static->setTitle($request->get('template'));
+                $static->setCanonical($request->get('name'));
                 $static->setStatic(true);
 
                 $em = $this->getDoctrine()->getManager();

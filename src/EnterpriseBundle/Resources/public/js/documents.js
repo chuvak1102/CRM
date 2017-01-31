@@ -22,19 +22,21 @@ $('.parse').click(function(e){
             processData: false,
             contentType: false,
             success : function(){
-                alert("Fucking success!");
+                alert("Продукты сохранены в базу");
             },
             error : function(){
                 alert('Fucking error!')
             },
             fail : function(){
-                alert("Fucking fail!");
+                alert("Я в рот ебал это программирование");
             }
         });
     } else {alert('Файл не выбран!')}
 });
 
-$('#prepare').click(function(e){
+$('.prepare').click(function(e){
+
+    var fieldsArea = $(this).parent().find('.fields');
 
     if(window.form && window.id){
         $.ajax({
@@ -51,8 +53,7 @@ $('#prepare').click(function(e){
                     var field = $('<div class="field"></div>')
                         .html(fields[i])
                         .draggable();
-                    $('#fields')
-                        .append(field);
+                    fieldsArea.append(field);
                 }
 
             },
@@ -76,4 +77,42 @@ $( ".droppable" ).droppable({
             })
             .appendTo($(this));
     }
+});
+
+$('.save_setting').click(function(){
+
+    var VendorCode = parseInt($('#VendorCode .field').html());
+    var Name = parseInt($('#Name .field').html());
+    var Category = parseInt($('#Category .field').html());
+    var Price = parseInt($('#Price .field').html());
+    var Description = parseInt($('#Description .field').html());
+    var shortDescription = parseInt($('#shortDescription .field').html());
+    var Image = parseInt($('#Image .field').html());
+    var Prop = $('#Properties .field');
+    var Properties = [];
+    for(var i = 0; i < Prop.length; i++){
+        var single = parseInt($(Prop[i]).html());
+        Properties.push(single);
+}
+    $.ajax({
+        url: '/admin/documents/save-setting',
+        type: 'POST',
+        data: {
+            "id" : window.id,
+            "VendorCode" : VendorCode,
+            "Name" : Name,
+            "Category" : Category,
+            "Price" : Price,
+            "Description" : Description,
+            "shortDescription" : shortDescription,
+            "Image" : Image,
+            "Properties" : Properties
+        },
+        success : function(res) {
+            alert('Настройки прайса сохранены');
+        },
+        error : function(){
+            alert('Не удалось сохранить настройки, блядь')
+        }
+    });
 });

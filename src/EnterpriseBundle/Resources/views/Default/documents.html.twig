@@ -2,64 +2,49 @@
 {% block content %}
     <div class="documents_page index">
         <div class="documents">
+            {% for i in sellers %}
+                <div class="seller_single">
+                    <div class="documents_single {% if i.seller_id is empty %}red{% endif %}">
+                        <div class="seller">{{ i.name }}</div>
+                        {% if i.seller_id is not empty %}
+                            <div class="parse" id="{{ i.id }}parse">В базу</div>
+                        {% endif %}
+                        <input type="file" id="{{ i.id }}">
+                    </div>
+                    {% if i.seller_id is empty %}
+                    <table class="custom_excel">
+                        <tr>
+                            <td>Артикул</td>
+                            <td>Название</td>
+                            <td>Категория</td>
+                            <td>Цена</td>
+                            <td>Описание</td>
+                            <td>Короткое описание</td>
+                            <td>Изображение</td>
+                            <td>Свойства товара</td>
+                        </tr>
+                        <tr>
+                            <td class="droppable" id="VendorCode"></td>
+                            <td class="droppable" id="Name"></td>
+                            <td class="droppable" id="Category"></td>
+                            <td class="droppable" id="Price"></td>
+                            <td class="droppable" id="Description"></td>
+                            <td class="droppable" id="shortDescription"></td>
+                            <td class="droppable" id="Image"></td>
+                            <td class="droppable" id="Properties"></td>
+                        </tr>
+                    </table>
 
-            <div class="documents_single">
-                <div class="seller">http://www.inspiritcompany.ru/</div>
-                <div class="parse" id="1parse">parse</div>
-                <input type="file" id="1">
-            </div>
-
-            <div class="documents_single">
-                <div class="seller">https://sex-opt.ru/</div>
-                <div class="parse" id="2parse">parse</div>
-                <input type="file" id="2">
-            </div>
-
-            <table class="custom_excel">
-                <tr>
-                    <td>Код продукта</td>
-                    <td>Категория</td>
-                    <td>Код категории</td>
-                    <td>Артикул</td>
-                    <td>Название</td>
-                    <td>Цена</td>
-                    <td>Оптовая цена</td>
-                    <td>Кастом цена 1</td>
-                    <td>Кастом цена 2</td>
-                    <td>Тип продукта</td>
-                    <td>Скидка</td>
-                    <td>Страна</td>
-                    <td>Изображение</td>
-                    <td>Описание</td>
-                    <td>Страница продукта</td>
-                    <td>Количество</td>
-                </tr>
-                <tr>
-                    <td class="droppable"></td>
-                    <td class="droppable"></td>
-                    <td class="droppable"></td>
-                    <td class="droppable"></td>
-                    <td class="droppable"></td>
-                    <td class="droppable"></td>
-                    <td class="droppable"></td>
-                    <td class="droppable"></td>
-                    <td class="droppable"></td>
-                    <td class="droppable"></td>
-                    <td class="droppable"></td>
-                    <td class="droppable"></td>
-                    <td class="droppable"></td>
-                    <td class="droppable"></td>
-                    <td class="droppable"></td>
-                    <td class="droppable"></td>
-                </tr>
-            </table>
+                    <div class="prepare std_btn">Настроить</div>
+                    <div class="save_setting std_btn">Сохранить</div>
+                        <div class="fields"></div>
+                    {% endif %}
+                </div>
+            {% endfor %}
 
         </div>
-        <div class="clear"></div>
-        <div id="fields">
 
-        </div>
-        <div id="prepare">prepare</div>
+
     </div>
     {#{{ dump() }}#}
 {% endblock %}

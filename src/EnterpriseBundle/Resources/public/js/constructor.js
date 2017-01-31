@@ -15,14 +15,15 @@ $( "#notepad_add" ).click(function(){
 $('#save_static').click(function(e){
 
     e.preventDefault();
-    var url = $('#static_url').val();
+    var template = $('#static_url').val();
+    var name = $('#static_name').val();
     var html = $('#static_html').val();
-    console.log(html);
-    if(url && html){
+    if(template && name){
         $.ajax({
             url : '/admin/constructor/create-static',
             data : {
-                "name" : url,
+                "template" : template,
+                "name" : name,
                 "html" : html
             },
             type : "POST",
@@ -34,8 +35,10 @@ $('#save_static').click(function(e){
                 }
             },
             error : function(){
-                alert("Хуй");
+                alert("Не удалось создать файл на сервере");
             }
         })
+    } else {
+        alert('Заполните URL и Название')
     }
 });

@@ -142,6 +142,23 @@ html, body {
     cursor: pointer;
 }
 
+.std_btn {
+    height: 30px;
+    border: 1px solid #525252;
+    background-color: #888;
+    color: #fff;
+    line-height: 30px;
+    text-align: center;
+    font-size: 14px;
+    width: 100px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.std_btn:hover {
+    background-color: #fff;
+    color: #525252;
+}
+
 .background {
     border-left: 1px solid rgb(213,213,213);
     position: absolute;
@@ -1147,16 +1164,27 @@ html, body {
 
 .documents_page .documents_single {
     height: 21px;
-    background-color: #aaaaaa;
+    background-color: rgb(190, 255, 158);
+    font-weight: bold;
+    color: #767676;
+}
+
+.documents_page .seller_single {
+    border: 1px solid #50506d;
     margin-bottom: 10px;
+}
+
+.documents_page .red {
+    background-color: rgb(255, 189, 146);
 }
 
 .documents_page .documents_single .seller {
     width: 400px;
     float: left;
-    color: #fff;
     height: 21px;
+    font-size: 14px;
     line-height: 20px;
+    padding-right: 5px;
 }
 
 .documents_page .documents_single input[type="file"]{
@@ -1168,17 +1196,17 @@ html, body {
 .documents_page .documents_single .parse {
     width: 100px;
     height: 21px;
-    background-color: #50506d;
+    border-left: 1px solid #50506d;
     text-align: center;
-    color: #fff;
     float: right;
     line-height: 20px;
     text-transform: uppercase;
     cursor: pointer;
+    font-size: 12px;
 }
 
 .documents_page .documents_single .parse:hover {
-    background-color: #9aff97;
+    background-color: #fff;
 }
 
 .documents_page .custom_excel {
@@ -1187,11 +1215,6 @@ html, body {
     width: 100%;
     height: 30px;
     background-color: rgba(0, 136, 204, 0.41);
-}
-
-.documents_page .custom_excel th {
-    /*border-top: 1px solid #000;*/
-    /*border-bottom: 1px solid #000;*/
 }
 
 .documents_page .custom_excel td {
@@ -1222,6 +1245,8 @@ html, body {
     padding: 10px;
 }
 
+
+
 /* CONSTRUCTOR PAGE */
 
 
@@ -1235,7 +1260,6 @@ html, body {
     padding-left: 10px;
     font-weight: bold;
     line-height: 40px;
-    color: #767676;
 }
 
 .constructor_page .add_form .left .round {
@@ -1261,7 +1285,7 @@ html, body {
     width: 70%;
     border: 1px solid #767676;
     float: left;
-    height: 400px;
+    height: 450px;
     position: relative;
 }
 .constructor_page .right {
@@ -1269,11 +1293,12 @@ html, body {
     border: 1px solid #767676;
     border-left: none;
     float: right;
-    height: 400px;
+    height: 450px;
     overflow-y: auto;
 }
 
 .constructor_page .right .static_single {
+    display: block;
     width: calc(100% - 20px);
     height: 30px;
     border: 1px solid #767676;
@@ -1283,6 +1308,19 @@ html, body {
     margin: 10px auto;
     line-height: 27px;
     background-color: rgb(227, 230, 235);
+    transition: all 0.5s;
+}
+
+.constructor_page .right .static_single:hover {
+    background-color: rgb(134, 162, 198);
+    color: #fff;
+}
+
+.constructor_page .right .static_pages a {
+    /*width: calc(100% - 20px);*/
+    /*display: block;*/
+    /*height: 40px;*/
+    /*color: #767676;*/
 }
 
 .constructor_page .add_form input[type="text"] {
@@ -1299,7 +1337,7 @@ html, body {
 .constructor_page .add_form textarea {
     width: calc(100% - 20px);
     margin: 10px auto 0;
-    height: 338px;
+    height: 346px;
     resize: none;
     display: block;
     padding: 10px 10px 60px 10px;

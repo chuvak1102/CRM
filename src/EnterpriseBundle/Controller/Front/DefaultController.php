@@ -15,15 +15,18 @@ class DefaultController extends Controller
      */
     public function indexAction(){
 
-        return $this->render(':default:index.html.twig');
+        $menu = $this->getDoctrine()->getRepository('EnterpriseBundle:Category')
+            ->findBy(array('static' => true));
+
+        return $this->render(':default:index.html.twig', array('menu' => $menu));
 
     }
 
     /**
      * @Route("/{path}", requirements={"path" = "[a-z\-]+"})
      */
-    public function staticAction(Request $request)
-    {
+    public function staticAction(Request $request){
+
         return $this->render(':default:'.$request->get('path').'.html.twig');
     }
 

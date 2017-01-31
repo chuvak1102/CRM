@@ -67,6 +67,11 @@ class Category
      */
     private $static = false;
 
+    /**
+     * @ORM\Column(name="canonical", type="string", length=200)
+     */
+    private $canonical;
+
     public function getId()
     {
         return $this->id;
@@ -246,5 +251,29 @@ class Category
     public function getStatic()
     {
         return $this->static;
+    }
+
+    /**
+     * Set canonical
+     *
+     * @param string $canonical
+     *
+     * @return Category
+     */
+    public function setCanonical($canonical)
+    {
+        $this->canonical = $canonical;
+
+        return $this;
+    }
+
+    /**
+     * Get canonical
+     *
+     * @return string
+     */
+    public function getCanonical()
+    {
+        return $this->canonical;
     }
 }

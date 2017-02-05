@@ -51,7 +51,7 @@ class ConstructorController extends Controller
      * @Route("/create-static")
      */
     public function createStaticAction(Request $request){
-//        if($request->isXmlHttpRequest()){
+        if($request->isXmlHttpRequest()){
 
         $constructor = $this->get('template_generator');
         $template = $constructor
@@ -78,8 +78,8 @@ class ConstructorController extends Controller
             ));
         }
 
-//        } else {
-//            throw new \Exception('Get the fuck out of here...');
-//        }
+        } else {
+            throw new \Exception('Get the fuck out of here...');
+        }
     }
 }

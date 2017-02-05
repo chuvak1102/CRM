@@ -12,6 +12,8 @@ use EnterpriseBundle\Entity\SellerProduct;
 use EnterpriseBundle\Entity\SellerSettings;
 use PHPExcel_IOFactory;
 use PHPExcel_Cell;
+use PHPExcel_CachedObjectStorageFactory;
+use PHPExcel_Settings;
 
 /**
  * Class MessagesController
@@ -136,12 +138,21 @@ class DocumentsController extends Controller
         $fileLoader = $this->get('file_uploader');
         $file = $_FILES['file'];
         $name = $fileLoader->save($file);
+
+//        $cacheMethod = PHPExcel_CachedObjectStorageFactory:: cache_to_phpTemp;
+//        $cacheSettings = array( ' memoryCacheSize ' => '512MB');
+//        PHPExcel_Settings::setCacheStorageMethod($cacheMethod, $cacheSettings);
+
         $objReader = PHPExcel_IOFactory::createReader('Excel2007');
+//        $objReader->setReadDataOnly(true);
+//        $objReader->setLoadSheetsOnly(0);
         $phpExcelObject = $objReader->load($name);
 
 
         $end = $phpExcelObject->setActiveSheetIndex(0)->getHighestRow();
         $em = $this->getDoctrine()->getManager();
+
+
         for($i = 2; $i <= $end; $i++){
 
             $category = $phpExcelObject->setActiveSheetIndex(0)->getCellByColumnAndRow($settings->getCategory(),$i)->getValue();
@@ -165,10 +176,23 @@ class DocumentsController extends Controller
             $product->setShortDescription($shortDescription);
             $product->setImage($image);
             $product->setSettings($otherSettings);
+            $x = $i;
+
+
+
 
             $em->persist($product);
-            $em->flush();
+
+            if($x%1000 === 0){
+                $em->flush();
+                $objPHPExcel->disconnectWorksheets();
+                unset($objPHPExcel);
+            }
+
+
+
         }
+        $em->flush();
 
         return new JsonResponse(array('created' => 'ok'));
     }

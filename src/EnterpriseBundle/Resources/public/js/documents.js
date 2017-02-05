@@ -24,8 +24,8 @@ $('.parse').click(function(e){
             success : function(){
                 alert("Продукты сохранены в базу");
             },
-            error : function(){
-                alert('Fucking error!')
+            error : function(response){
+                alert(response.created);
             },
             fail : function(){
                 alert("Я в рот ебал это программирование");
@@ -57,7 +57,7 @@ $('.prepare').click(function(e){
                 }
 
             },
-            error : function(){
+            error : function(response){
                 alert('Fucking error!')
             },
             fail : function(){

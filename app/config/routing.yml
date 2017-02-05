@@ -1,7 +1,5 @@
 dc_user:
-    resource: "@DCUserBundle/Controller/"
-    type:     annotation
-    prefix:   /
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
 
 enterprise:
     resource: "@EnterpriseBundle/Controller/"

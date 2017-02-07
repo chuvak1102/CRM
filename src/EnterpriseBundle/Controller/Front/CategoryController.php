@@ -52,19 +52,32 @@ class CategoryController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $dir = '/var/www/job/app/Resources/views/default/';
-        $file = 'static.html.twig';
+        $cRepo = $this->getDoctrine()->getRepository('EnterpriseBundle:Category');
+        $requestRoute = str_replace('/', '', $request->get('path'));
+        $path = explode('/', $request->get('path'));
 
-        $r = $_SERVER['DOCUMENT_ROOT'];
-        $site = str_replace('/var/www/', '', $r);
+        $lastCatInRoute = $cRepo->findOneBy(array('title' => $path[count($path) - 1]));
+        if(!$lastCatInRoute){
+            return $this->render(':default:404.html.twig');
+        }
+        $allCatRoutes = $cRepo->getPath($lastCatInRoute);
 
-        if( !file_exists($dir.$file)) {
-            $fp = fopen($dir.$file, "w");
-            fwrite($fp, $request->get('path'));
-            fclose ($fp);
+        $route = '';
+        foreach($allCatRoutes as $a){
+            $route = $route.$a->getTitle();
         }
 
-        return new Response($request->get('path'));
+        if(strcmp($route, $requestRoute) === 0){
+
+            return $this->render(':default:catalog.html.twig', array(
+                'products' => $lastCatInRoute->getProducts(),
+                'breadcrumbs' => $allCatRoutes
+            ));
+        } else {
+
+            return $this->render(':default:404.html.twig');
+        }
+
     }
 
 

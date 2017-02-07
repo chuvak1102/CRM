@@ -72,6 +72,21 @@ class Category
      */
     private $canonical;
 
+    /**
+     * @ORM\Column(name="image", type="text", length=500)
+     */
+    private $image;
+
+    /**
+     * @ORM\Column(name="description", type="text", length=500)
+     */
+    private $description;
+
+    /**
+     * @ORM\OneToMany(targetEntity="EnterpriseBundle\Entity\Catalog", mappedBy="category")
+     */
+    private $products;
+
     public function getId()
     {
         return $this->id;
@@ -275,5 +290,87 @@ class Category
     public function getCanonical()
     {
         return $this->canonical;
+    }
+
+    /**
+     * Set image
+     *
+     * @param string $image
+     *
+     * @return Category
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return string
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return Category
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Add product
+     *
+     * @param \EnterpriseBundle\Entity\Catalog $product
+     *
+     * @return Category
+     */
+    public function addProduct(\EnterpriseBundle\Entity\Catalog $product)
+    {
+        $this->products[] = $product;
+
+        return $this;
+    }
+
+    /**
+     * Remove product
+     *
+     * @param \EnterpriseBundle\Entity\Catalog $product
+     */
+    public function removeProduct(\EnterpriseBundle\Entity\Catalog $product)
+    {
+        $this->products->removeElement($product);
+    }
+
+    /**
+     * Get products
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProducts()
+    {
+        return $this->products;
     }
 }

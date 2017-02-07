@@ -25,7 +25,8 @@ class DefaultController extends Controller
 
 
     /**
-     * @Route(
+     * @Route
+     * (
      *  "/{path}",
      *  requirements={"path" = "(?!login|register)[a-z0-9\-]+"}
      * )

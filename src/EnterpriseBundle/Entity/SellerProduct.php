@@ -60,7 +60,9 @@ class SellerProduct {
     /**
      * @ORM\Column(type="array", length=10000, nullable=true)
      */
-    private $settings;
+    private $advanced;
+
+
 
 
 
@@ -243,27 +245,27 @@ class SellerProduct {
     }
 
     /**
-     * Set settings
+     * Set advanced
      *
-     * @param array $settings
+     * @param array $advanced
      *
      * @return SellerProduct
      */
-    public function setSettings($settings)
+    public function setAdvanced($advanced)
     {
-        $this->settings = $settings;
+        $this->advanced = $advanced;
 
         return $this;
     }
 
     /**
-     * Get settings
+     * Get advanced
      *
      * @return array
      */
-    public function getSettings()
+    public function getAdvanced()
     {
-        return $this->settings;
+        return $this->advanced;
     }
 
     /**

@@ -6,7 +6,10 @@
                 <div class="seller_single">
                     <div class="documents_single {% if i.seller_id is empty %}red{% endif %}">
                         <div class="seller">{{ i.name }}</div>
-                        {% if i.seller_id is not empty %}
+                        {% if i.seller_id == 5 %}
+                        <div class="to_site" id="to_site">На сайт</div>
+
+                        {% elseif i.seller_id is not empty %}
                             <div class="parse" id="{{ i.id }}parse">В базу</div>
                         {% endif %}
                         <input type="file" id="{{ i.id }}">

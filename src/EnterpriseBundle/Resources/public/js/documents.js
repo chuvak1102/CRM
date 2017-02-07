@@ -16,7 +16,7 @@ $('.parse').click(function(e){
 
     if(window.form && window.id){
         $.ajax({
-            url: '/admin/documents/parse/'+id,
+            url: '/admin/documents/parsecsv/'+id,
             type: 'POST',
             data: window.form,
             processData: false,
@@ -28,10 +28,10 @@ $('.parse').click(function(e){
                 alert(response.created);
             },
             fail : function(){
-                alert("Я в рот ебал это программирование");
+                alert("Не удалось распарсить файл");
             }
         });
-    } else {alert('Файл не выбран!')}
+    } else {alert('Файл не выбран')}
 });
 
 $('.prepare').click(function(e){
@@ -115,4 +115,27 @@ $('.save_setting').click(function(){
             alert('Не удалось сохранить настройки, блядь')
         }
     });
+});
+
+
+$('#to_site').click(function(e){
+
+    if(window.form && window.id){
+        $.ajax({
+            url: '/admin/documents/addtoshop',
+            type: 'POST',
+            data: window.form,
+            processData: false,
+            contentType: false,
+            success : function(){
+                alert("Продукты сохранены в базу");
+            },
+            error : function(response){
+                alert("Ошибка, ошибка!!");
+            },
+            fail : function(){
+                alert("Не удалось распарсить файл");
+            }
+        });
+    } else {alert('Файл не выбран')}
 });

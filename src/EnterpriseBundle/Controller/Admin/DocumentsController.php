@@ -10,10 +10,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use EnterpriseBundle\Entity\Seller;
 use EnterpriseBundle\Entity\SellerProduct;
 use EnterpriseBundle\Entity\SellerSettings;
+use EnterpriseBundle\Entity\Catalog;
+use EnterpriseBundle\Entity\Category;
 use PHPExcel_IOFactory;
 use PHPExcel_Cell;
-use PHPExcel_CachedObjectStorageFactory;
-use PHPExcel_Settings;
 
 /**
  * Class MessagesController
@@ -41,8 +41,14 @@ class DocumentsController extends Controller
             $sellers = $this->getDoctrine()->getRepository("EnterpriseBundle:Seller")
                 ->getSellers();
 
+            $set = $this->getDoctrine()->getRepository('EnterpriseBundle:SellerProduct')
+                ->findOneBy(array(
+                    'id' => 5
+                ));
+
             return $this->render("EnterpriseBundle:Default:documents.html.twig", array(
-                'sellers' => $sellers
+                'sellers' => $sellers,
+                'set' => $set
             ));
 
         } else {
@@ -80,7 +86,7 @@ class DocumentsController extends Controller
         }
 
         if(!empty($set)){
-            $settings->setSettings($set);
+            $settings->setAdvanced($set);
         }
 
         $em = $this->getDoctrine()->getManager();
@@ -93,7 +99,7 @@ class DocumentsController extends Controller
     /**
      * @Route("/excelprepare")
      */
-    function prepareForParsingAction(Request $request){
+    function savePriceSettingsAction(Request $request){
 
         if($request->isXmlHttpRequest()){
         $fileLoader = $this->get('file_uploader');
@@ -119,85 +125,176 @@ class DocumentsController extends Controller
         }
 
         } else {
-            throw new \Exception('notForYouAction');
+            throw new \Exception('ajax');
         }
     }
 
-    /**
-     * @Route("/parse/{id}", requirements={"id":"[\d]+"})
-     */
-    function parseAction(Seller $seller, Request $request){
 
-        $settings = $this->getDoctrine()->getRepository('EnterpriseBundle:SellerSettings')
+    /**
+     * @Route("/parsecsv/{id}", requirements={"id":"[\d]+"})
+     */
+    function parseCSVAction(Seller $seller, Request $request){
+
+        $fileLoader = $this->get('file_uploader');
+        $name = $fileLoader->save($_FILES['file']);
+
+        $fields = $this->getDoctrine()->getRepository('EnterpriseBundle:SellerSettings')
             ->findOneBy(array(
                 'seller_id' => $seller->getId()
             ));
 
-
-
-        $fileLoader = $this->get('file_uploader');
-        $file = $_FILES['file'];
-        $name = $fileLoader->save($file);
-
-//        $cacheMethod = PHPExcel_CachedObjectStorageFactory:: cache_to_phpTemp;
-//        $cacheSettings = array( ' memoryCacheSize ' => '512MB');
-//        PHPExcel_Settings::setCacheStorageMethod($cacheMethod, $cacheSettings);
-
-        $objReader = PHPExcel_IOFactory::createReader('Excel2007');
-//        $objReader->setReadDataOnly(true);
-//        $objReader->setLoadSheetsOnly(0);
-        $phpExcelObject = $objReader->load($name);
-
-
-        $end = $phpExcelObject->setActiveSheetIndex(0)->getHighestRow();
         $em = $this->getDoctrine()->getManager();
 
+        $category = $fields->getCategory();
+        $itemName = $fields->getName();
+        $price = $fields->getPrice();
+        $description = $fields->getDescription();
+        $shortDescription = $fields->getShortDescription();
+        $image = $fields->getImage();
 
-        for($i = 2; $i <= $end; $i++){
+        file_put_contents($name, iconv("WINDOWS-1251", "UTF-8", file_get_contents($name)));
 
-            $category = $phpExcelObject->setActiveSheetIndex(0)->getCellByColumnAndRow($settings->getCategory(),$i)->getValue();
-//            $vendor = $phpExcelObject->setActiveSheetIndex(0)->getCellByColumnAndRow(3,$i)->getValue();
-            $name = $phpExcelObject->setActiveSheetIndex(0)->getCellByColumnAndRow($settings->getName(),$i)->getValue();
-            $price = $phpExcelObject->setActiveSheetIndex(0)->getCellByColumnAndRow($settings->getPrice(),$i)->getValue();
-            $description = $phpExcelObject->setActiveSheetIndex(0)->getCellByColumnAndRow($settings->getDescription(),$i)->getValue();
-            $shortDescription = $phpExcelObject->setActiveSheetIndex(0)->getCellByColumnAndRow($settings->getShortDescription(),$i)->getValue();
-            $image = $phpExcelObject->setActiveSheetIndex(0)->getCellByColumnAndRow($settings->getImage(),$i)->getValue();
+        $csvFile = fopen($name, "r");
+        while (($line = fgetcsv($csvFile, 0, ";")) !== false) {
 
-            foreach($settings->getSettings() as $set){
-                $otherSettings[] = $phpExcelObject->setActiveSheetIndex(0)->getCellByColumnAndRow($set,$i)->getValue();
+            foreach($fields->getAdvanced() as $cell){
+                $advanced[] = $line[$cell];
             }
+
 
             $product = new SellerProduct;
             $product->setSeller($seller);
-            $product->setCategory($category);
-            $product->setName($name);
-            $product->setPrice($price);
-            $product->setDescription($description);
-            $product->setShortDescription($shortDescription);
-            $product->setImage($image);
-            $product->setSettings($otherSettings);
-            $x = $i;
-
-
-
+            $product->setCategory($line[$category]);
+            $product->setName($line[$itemName]);
+            $product->setPrice($line[$price]);
+            $product->setDescription($line[$description]);
+            $product->setShortDescription($line[$shortDescription]);
+            $product->setImage($line[$image]);
+            $product->setAdvanced($advanced);
 
             $em->persist($product);
 
-            if($x%1000 === 0){
-                $em->flush();
-                $objPHPExcel->disconnectWorksheets();
-                unset($objPHPExcel);
-            }
-
-
-
+            unset($product);
+            unset($advanced);
+            unset($line);
         }
         $em->flush();
+        unset($em);
 
+        fclose($csvFile);
+        unset($csvFile);
         return new JsonResponse(array('created' => 'ok'));
     }
 
 
+    /**
+     * @Route("/addtoshop")
+     */
+    function addToShopAction(Request $request){
+
+        $file = $this->get('file_uploader')->save($_FILES['file']);
+        $helpers = $this->get('helpers');
+        $helpers->toUTF8($file);
+
+        $fields = $this->getDoctrine()->getRepository('EnterpriseBundle:SellerSettings')
+            ->findOneBy(array(
+                'seller_id' => 5
+            ));
+
+        $category = $fields->getCategory();
+        $vendor = $fields->getVendorCode();
+        $itemName = $fields->getName();
+        $price = $fields->getPrice();
+        $description = $fields->getDescription();
+        $shortDescription = $fields->getShortDescription();
+        $image = $fields->getImage();
+
+        $em = $this->getDoctrine()->getManager();
+
+        $csvFile = fopen($file, "r");
+        while (($line = fgetcsv($csvFile, 0, ";")) !== false) {
+
+            foreach($fields->getAdvanced() as $cell){
+                $advanced[] = $line[$cell];
+            }
+
+            $product = new Catalog();
+
+            $x = $this->createCategories($line[$category]);
+            $p = $x->getProducts();
+
+            $product->setCategory($this->createCategories($line[$category]));
+            $product->setVendorCode($line[$vendor]);
+            $product->setName($line[$itemName]);
+            $product->setPrice($line[$price]);
+            $product->setDescription($line[$description]);
+            $product->setShortDescription($line[$shortDescription]);
+            $product->setImage($line[$image]);
+            $product->setAdvanced($advanced);
+
+            $em->persist($product);
+
+            unset($product);
+            unset($advanced);
+            unset($line);
+        }
+        $em->flush();
+        unset($em);
+
+        fclose($csvFile);
+        unset($csvFile);
+        return new JsonResponse(array('created' => 'ok'));
+    }
+
+    function createCategories($string){
+
+        $cRepo = $this->getDoctrine()->getRepository('EnterpriseBundle:Category');
+        $em = $this->getDoctrine()->getManager();
+        $catList = explode('/', $string);
+
+        for($i = 0; $i < count($catList); $i++){
+
+            $existCat = $cRepo->findOneBy(array('title' => $catList[$i]));
+
+            if(!$existCat){
+
+                $category = new Category;
+                $category->setTitle($catList[$i]);
+                $category->setCanonical($catList[$i]);
+                $category->setImage($catList[$i]);
+                $category->setDescription($catList[$i]);
+                $em->persist($category);
+                $em->flush();
+
+                if($i > 0){
+                    $parent = $cRepo->findOneBy(array('title' => $catList[$i-1]));
+                    if($parent){
+                        $category->setParent($parent);
+                    }
+                }
+
+
+            } else {
+
+                if($i > 0){
+                    $parent = $cRepo->findOneBy(array('title' => $catList[$i - 1]));
+                    if($parent){
+                        $existCat->setParent($parent);
+                        $em->persist($existCat);
+                        $em->flush();
+                    }
+                }
+            }
+        }
+
+        if(!empty($category)){
+            return $category;
+        } elseif (!empty($existCat)){
+            return $existCat;
+        } else {
+            return false;
+        }
+    }
 
 
 

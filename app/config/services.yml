@@ -43,3 +43,9 @@ services:
         
     template_generator:
         class: EnterpriseBundle\Services\TemplateGenerator
+
+    csv_reader:
+        class: EnterpriseBundle\Services\CSVReader
+
+    helpers:
+        class: EnterpriseBundle\Services\Helpers

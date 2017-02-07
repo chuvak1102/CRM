@@ -60,7 +60,235 @@ class SellerProduct {
     /**
      * @ORM\Column(type="array", length=10000, nullable=true)
      */
-    private $settings;
+    private $advanced;
 
 
+
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set category
+     *
+     * @param string $category
+     *
+     * @return SellerProduct
+     */
+    public function setCategory($category)
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return string
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * Set vendorCode
+     *
+     * @param string $vendorCode
+     *
+     * @return SellerProduct
+     */
+    public function setVendorCode($vendorCode)
+    {
+        $this->vendor_code = $vendorCode;
+
+        return $this;
+    }
+
+    /**
+     * Get vendorCode
+     *
+     * @return string
+     */
+    public function getVendorCode()
+    {
+        return $this->vendor_code;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return SellerProduct
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set price
+     *
+     * @param string $price
+     *
+     * @return SellerProduct
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * Get price
+     *
+     * @return string
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return SellerProduct
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set shortDescription
+     *
+     * @param string $shortDescription
+     *
+     * @return SellerProduct
+     */
+    public function setShortDescription($shortDescription)
+    {
+        $this->short_description = $shortDescription;
+
+        return $this;
+    }
+
+    /**
+     * Get shortDescription
+     *
+     * @return string
+     */
+    public function getShortDescription()
+    {
+        return $this->short_description;
+    }
+
+    /**
+     * Set image
+     *
+     * @param string $image
+     *
+     * @return SellerProduct
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return string
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * Set advanced
+     *
+     * @param array $advanced
+     *
+     * @return SellerProduct
+     */
+    public function setAdvanced($advanced)
+    {
+        $this->advanced = $advanced;
+
+        return $this;
+    }
+
+    /**
+     * Get advanced
+     *
+     * @return array
+     */
+    public function getAdvanced()
+    {
+        return $this->advanced;
+    }
+
+    /**
+     * Set seller
+     *
+     * @param \EnterpriseBundle\Entity\Seller $seller
+     *
+     * @return SellerProduct
+     */
+    public function setSeller(\EnterpriseBundle\Entity\Seller $seller = null)
+    {
+        $this->seller = $seller;
+
+        return $this;
+    }
+
+    /**
+     * Get seller
+     *
+     * @return \EnterpriseBundle\Entity\Seller
+     */
+    public function getSeller()
+    {
+        return $this->seller;
+    }
 }

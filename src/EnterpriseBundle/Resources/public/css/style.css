@@ -1205,6 +1205,18 @@ html, body {
     font-size: 12px;
 }
 
+.documents_page .documents_single .to_site {
+    width: 100px;
+    height: 21px;
+    border-left: 1px solid #50506d;
+    text-align: center;
+    float: right;
+    line-height: 20px;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-size: 12px;
+}
+
 .documents_page .documents_single .parse:hover {
     background-color: #fff;
 }

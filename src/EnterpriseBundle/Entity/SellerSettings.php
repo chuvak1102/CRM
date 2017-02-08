@@ -31,6 +31,11 @@ class SellerSettings {
     /**
      * @ORM\Column(type="integer", length=5, nullable=true)
      */
+    private $category_name;
+
+    /**
+     * @ORM\Column(type="integer", length=5, nullable=true)
+     */
     private $vendor_code;
 
     /**
@@ -123,6 +128,30 @@ class SellerSettings {
     public function getCategory()
     {
         return $this->category;
+    }
+
+    /**
+     * Set categoryName
+     *
+     * @param integer $categoryName
+     *
+     * @return SellerSettings
+     */
+    public function setCategoryName($categoryName)
+    {
+        $this->category_name = $categoryName;
+
+        return $this;
+    }
+
+    /**
+     * Get categoryName
+     *
+     * @return integer
+     */
+    public function getCategoryName()
+    {
+        return $this->category_name;
     }
 
     /**

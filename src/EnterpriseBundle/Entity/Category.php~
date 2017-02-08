@@ -68,17 +68,17 @@ class Category
     private $static = false;
 
     /**
-     * @ORM\Column(name="canonical", type="string", length=200)
+     * @ORM\Column(name="canonical", type="string", length=500, nullable=true)
      */
     private $canonical;
 
     /**
-     * @ORM\Column(name="image", type="text", length=500)
+     * @ORM\Column(name="image", type="text", length=500, nullable=true)
      */
     private $image;
 
     /**
-     * @ORM\Column(name="description", type="text", length=500)
+     * @ORM\Column(name="description", type="text", length=5000, nullable=true)
      */
     private $description;
 
@@ -338,5 +338,39 @@ class Category
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Add product
+     *
+     * @param \EnterpriseBundle\Entity\Catalog $product
+     *
+     * @return Category
+     */
+    public function addProduct(\EnterpriseBundle\Entity\Catalog $product)
+    {
+        $this->products[] = $product;
+
+        return $this;
+    }
+
+    /**
+     * Remove product
+     *
+     * @param \EnterpriseBundle\Entity\Catalog $product
+     */
+    public function removeProduct(\EnterpriseBundle\Entity\Catalog $product)
+    {
+        $this->products->removeElement($product);
+    }
+
+    /**
+     * Get products
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProducts()
+    {
+        return $this->products;
     }
 }

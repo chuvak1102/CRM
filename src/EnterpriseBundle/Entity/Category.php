@@ -68,17 +68,17 @@ class Category
     private $static = false;
 
     /**
-     * @ORM\Column(name="canonical", type="string", length=200)
+     * @ORM\Column(name="canonical", type="string", length=500, nullable=true)
      */
     private $canonical;
 
     /**
-     * @ORM\Column(name="image", type="text", length=500)
+     * @ORM\Column(name="image", type="text", length=500, nullable=true)
      */
     private $image;
 
     /**
-     * @ORM\Column(name="description", type="text", length=500)
+     * @ORM\Column(name="description", type="text", length=5000, nullable=true)
      */
     private $description;
 

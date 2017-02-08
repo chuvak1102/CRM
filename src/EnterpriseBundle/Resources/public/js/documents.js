@@ -84,6 +84,7 @@ $('.save_setting').click(function(){
     var VendorCode = parseInt($('#VendorCode .field').html());
     var Name = parseInt($('#Name .field').html());
     var Category = parseInt($('#Category .field').html());
+    var CategoryName = parseInt($('#CategoryName .field').html());
     var Price = parseInt($('#Price .field').html());
     var Description = parseInt($('#Description .field').html());
     var shortDescription = parseInt($('#shortDescription .field').html());
@@ -102,6 +103,7 @@ $('.save_setting').click(function(){
             "VendorCode" : VendorCode,
             "Name" : Name,
             "Category" : Category,
+            "CategoryName" : CategoryName,
             "Price" : Price,
             "Description" : Description,
             "shortDescription" : shortDescription,

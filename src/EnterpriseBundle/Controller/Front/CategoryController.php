@@ -53,15 +53,31 @@ class CategoryController extends Controller
     public function indexAction(Request $request)
     {
         $cRepo = $this->getDoctrine()->getRepository('EnterpriseBundle:Category');
+        $pRepo = $this->getDoctrine()->getRepository('EnterpriseBundle:Catalog');
+
         $requestRoute = str_replace('/', '', $request->get('path'));
         $path = explode('/', $request->get('path'));
 
         $lastCatInRoute = $cRepo->findOneBy(array('title' => $path[count($path) - 1]));
-        if(!$lastCatInRoute){
-            return $this->render(':default:404.html.twig');
-        }
-        $allCatRoutes = $cRepo->getPath($lastCatInRoute);
 
+        if(!$lastCatInRoute){
+            $lastCatInRoute = $cRepo->findOneBy(array('title' => $path[count($path) - 2]));
+            $allCatRoutes = $cRepo->getPath($lastCatInRoute);
+
+            $product = $pRepo->findOneBy(array('alias' => $path[count($path) - 1]));
+            if($product){
+                $products = $product->getCategory()->getProducts();
+                return $this->render(':default:product.html.twig', array(
+                    'products' => $products,
+                    'breadcrumbs' => $allCatRoutes
+                ));
+            } else {
+                return $this->render(':default:404.html.twig');
+            }
+
+        }
+
+        $allCatRoutes = $cRepo->getPath($lastCatInRoute);
         $route = '';
         foreach($allCatRoutes as $a){
             $route = $route.$a->getTitle();
@@ -69,8 +85,11 @@ class CategoryController extends Controller
 
         if(strcmp($route, $requestRoute) === 0){
 
-            return $this->render(':default:catalog.html.twig', array(
+            $category = $cRepo->findBy(array('lvl' => $lastCatInRoute->getLvl() + 1, 'static' => 0));
+
+            return $this->render(':default:category.html.twig', array(
                 'products' => $lastCatInRoute->getProducts(),
+                'category' => $category,
                 'breadcrumbs' => $allCatRoutes
             ));
         } else {

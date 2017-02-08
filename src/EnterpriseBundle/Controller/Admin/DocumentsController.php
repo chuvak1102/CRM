@@ -71,6 +71,8 @@ class DocumentsController extends Controller
             $settings->setName($request->get('Name'));
         if(!empty($request->get('Category')))
             $settings->setCategory($request->get('Category'));
+        if(!empty($request->get('CategoryName')))
+            $settings->setCategoryName($request->get('CategoryName'));
         if(!empty($request->get('Price')))
             $settings->setPrice($request->get('Price'));
         if(!empty($request->get('Description')))
@@ -202,6 +204,7 @@ class DocumentsController extends Controller
             ));
 
         $category = $fields->getCategory();
+        $categoryName = $fields->getCategoryName();
         $vendor = $fields->getVendorCode();
         $itemName = $fields->getName();
         $price = $fields->getPrice();
@@ -219,13 +222,14 @@ class DocumentsController extends Controller
             }
 
             $product = new Catalog();
-
-            $x = $this->createCategories($line[$category]);
-            $p = $x->getProducts();
-
-            $product->setCategory($this->createCategories($line[$category]));
+            $product->setCategory(
+                $this->createCategories(
+                    $line[$category], $line[$categoryName]
+                ));
+            $product->setCategoryName($line[$categoryName]);
             $product->setVendorCode($line[$vendor]);
             $product->setName($line[$itemName]);
+            $product->setAlias($helpers->stringToUrl($line[$itemName]));
             $product->setPrice($line[$price]);
             $product->setDescription($line[$description]);
             $product->setShortDescription($line[$shortDescription]);
@@ -246,23 +250,32 @@ class DocumentsController extends Controller
         return new JsonResponse(array('created' => 'ok'));
     }
 
-    function createCategories($string){
+    function createCategories($categoryPath, $categoryName){
 
         $cRepo = $this->getDoctrine()->getRepository('EnterpriseBundle:Category');
         $em = $this->getDoctrine()->getManager();
-        $catList = explode('/', $string);
+        $catList = explode('/', $categoryPath);
+        $name = array();
+
+        for($i = 0; $i < count($catList); $i++){
+            $name[$i] = '';
+            if($i == count($catList) - 1){
+                $name[$i] = $categoryName;
+                $catName = $name[$i];
+                break;
+            }
+        }
 
         for($i = 0; $i < count($catList); $i++){
 
             $existCat = $cRepo->findOneBy(array('title' => $catList[$i]));
-
             if(!$existCat){
 
                 $category = new Category;
                 $category->setTitle($catList[$i]);
-                $category->setCanonical($catList[$i]);
-                $category->setImage($catList[$i]);
-                $category->setDescription($catList[$i]);
+                if($i == count($catList) - 1){
+                    $category->setCanonical($catName);
+                }
                 $em->persist($category);
                 $em->flush();
 
@@ -270,9 +283,10 @@ class DocumentsController extends Controller
                     $parent = $cRepo->findOneBy(array('title' => $catList[$i-1]));
                     if($parent){
                         $category->setParent($parent);
+                        $em->persist($category);
+                        $em->flush();
                     }
                 }
-
 
             } else {
 
@@ -280,6 +294,12 @@ class DocumentsController extends Controller
                     $parent = $cRepo->findOneBy(array('title' => $catList[$i - 1]));
                     if($parent){
                         $existCat->setParent($parent);
+                        $em->persist($existCat);
+                        $em->flush();
+                    }
+                } else {
+                    if(count($catList) == 1){
+                        $existCat->setCanonical($name[$i]);
                         $em->persist($existCat);
                         $em->flush();
                     }

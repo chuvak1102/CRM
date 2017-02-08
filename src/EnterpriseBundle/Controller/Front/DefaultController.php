@@ -34,7 +34,18 @@ class DefaultController extends Controller
     public function staticAction(Request $request){
 
         if ($this->get('templating')->exists(':default:'.$request->get('path').'.html.twig') ) {
-            return $this->render(':default:'.$request->get('path').'.html.twig');
+            $sRepo = $this->getDoctrine()->getRepository('EnterpriseBundle:Category');
+            $static = $sRepo->findBy(array('title' => $request->get('path')));
+            $rootCats = $sRepo->findBy(array(
+                'lvl' => 0,
+                'static' => 0
+            ));
+
+            return $this->render(':default:'.$request->get('path').'.html.twig', array(
+                'breadcrumbs' => $static,
+                'category' => $rootCats,
+                'products' => null
+            ));
         } else {
             return $this->render(':default:404.html.twig');
         }

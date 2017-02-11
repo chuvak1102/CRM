@@ -68,7 +68,7 @@ class CategoryController extends Controller
             if($product){
                 $products = $product->getCategory()->getProducts();
                 return $this->render(':default:product.html.twig', array(
-                    'products' => $products,
+                    'product' => $product,
                     'breadcrumbs' => $allCatRoutes
                 ));
             } else {
@@ -83,15 +83,34 @@ class CategoryController extends Controller
             $route = $route.$a->getTitle();
         }
 
+        $x = 0;
+
         if(strcmp($route, $requestRoute) === 0){
 
-            $category = $cRepo->findBy(array('lvl' => $lastCatInRoute->getLvl() + 1, 'static' => 0));
+            $cat = $cRepo->children($lastCatInRoute);
+            if(!empty($cat)){
+                foreach($cat as $c){
+                    if($c->getLvl() === $lastCatInRoute->getLvl() + 1 && $c->getStatic() === false){
+                        $category[] = $c;
+                    }
+                }
 
-            return $this->render(':default:category.html.twig', array(
-                'products' => $lastCatInRoute->getProducts(),
-                'category' => $category,
-                'breadcrumbs' => $allCatRoutes
-            ));
+                $category = !empty($category) ? $category : null;
+
+                return $this->render(':default:category.html.twig', array(
+                    'products' => $lastCatInRoute->getProducts(),
+                    'category' => $category,
+                    'breadcrumbs' => $allCatRoutes
+                ));
+            } else {
+
+                $products = $pRepo->findBy(array('category' => $lastCatInRoute->getId()));
+                return $this->render(':default:products.html.twig', array(
+                    'products' => $products,
+                    'breadcrumbs' => $allCatRoutes
+                ));
+            }
+
         } else {
 
             return $this->render(':default:404.html.twig');

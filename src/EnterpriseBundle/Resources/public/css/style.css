@@ -133,6 +133,20 @@ html, body {
     height: 32px;
 }
 
+.small_header {
+    width: 100%;
+    height: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #50506d;
+    text-align: left;
+    padding-left: 10px;
+    line-height: 30px;
+    border-bottom: 1px solid #50506d;
+    margin-bottom: 20px;
+
+}
+
 .btn {
     width: 30px;
     height: 30px;
@@ -1257,6 +1271,28 @@ html, body {
     padding: 10px;
 }
 
+.documents_page .site_price {
+    width: 100%;
+    margin: auto;
+    height: 21px;
+    background-color: #86a2c6;
+}
+
+.documents_page .site_price .add_to_site {
+    float: left;
+    height: 21px;
+    width: auto;
+    padding: 5px;
+    line-height: 8px;
+    font-weight: bold;
+}
+
+.documents_page .site_price input {
+    display: block;
+    float: right;
+}
+
+
 
 
 /* CONSTRUCTOR PAGE */
@@ -1326,13 +1362,6 @@ html, body {
 .constructor_page .right .static_single:hover {
     background-color: rgb(134, 162, 198);
     color: #fff;
-}
-
-.constructor_page .right .static_pages a {
-    /*width: calc(100% - 20px);*/
-    /*display: block;*/
-    /*height: 40px;*/
-    /*color: #767676;*/
 }
 
 .constructor_page .add_form input[type="text"] {

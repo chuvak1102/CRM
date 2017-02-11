@@ -22,6 +22,7 @@ $('.parse').click(function(e){
             processData: false,
             contentType: false,
             success : function(){
+                window.form = '';
                 alert("Продукты сохранены в базу");
             },
             error : function(response){
@@ -87,7 +88,7 @@ $('.save_setting').click(function(){
     var CategoryName = parseInt($('#CategoryName .field').html());
     var Price = parseInt($('#Price .field').html());
     var Description = parseInt($('#Description .field').html());
-    var shortDescription = parseInt($('#shortDescription .field').html());
+    var ShortDescription = parseInt($('#ShortDescription .field').html());
     var Image = parseInt($('#Image .field').html());
     var Prop = $('#Properties .field');
     var Properties = [];
@@ -96,7 +97,7 @@ $('.save_setting').click(function(){
         Properties.push(single);
 }
     $.ajax({
-        url: '/admin/documents/save-setting',
+        url: '/admin/documents/save-settings',
         type: 'POST',
         data: {
             "id" : window.id,
@@ -106,7 +107,7 @@ $('.save_setting').click(function(){
             "CategoryName" : CategoryName,
             "Price" : Price,
             "Description" : Description,
-            "shortDescription" : shortDescription,
+            "ShortDescription" : ShortDescription,
             "Image" : Image,
             "Properties" : Properties
         },
@@ -122,7 +123,7 @@ $('.save_setting').click(function(){
 
 $('#to_site').click(function(e){
 
-    if(window.form && window.id){
+    if(window.form){
         $.ajax({
             url: '/admin/documents/addtoshop',
             type: 'POST',
@@ -141,3 +142,89 @@ $('#to_site').click(function(e){
         });
     } else {alert('Файл не выбран')}
 });
+
+// for site catalog
+$('#prepare').click(function(e){
+
+    var fieldsArea = $(this).parent().find('.fields');
+    console.log(fieldsArea);
+
+    if(window.form){
+        $.ajax({
+            url: '/admin/documents/catalogprepare',
+            type: 'POST',
+            data: window.form,
+            processData: false,
+            contentType: false,
+            success : function(res){
+                var fields = res.fields;
+                console.log(fields);
+
+                for(var i = 0; i < fields.length; i++){
+                    var field = $('<div class="field"></div>')
+                        .html(fields[i])
+                        .draggable();
+                    fieldsArea.append(field);
+                }
+
+            },
+            error : function(response){
+                alert('Fucking error!')
+            },
+            fail : function(){
+                alert("Fucking fail!");
+            }
+        });
+    } else {
+        alert('Файл не выбран!')
+    }
+});
+
+// save site price
+
+$('#save').click(function(){
+
+    var VendorCode = parseInt($('#pVendorCode .field').html());
+    var Name = parseInt($('#pName .field').html());
+    var Category = parseInt($('#pCategory .field').html());
+    var CategoryName = parseInt($('#pCategoryName .field').html());
+    var Price = parseInt($('#pPrice .field').html());
+    var Description = parseInt($('#pDescription .field').html());
+    var ShortDescription = parseInt($('#pShortDescription .field').html());
+    var Image = parseInt($('#pImage .field').html());
+    var Prop = $('#pProperties .field');
+    var Properties = [];
+    for(var i = 0; i < Prop.length; i++){
+        var single = parseInt($(Prop[i]).html());
+        Properties.push(single);
+    }
+    $.ajax({
+        url: '/admin/documents/save-settings',
+        type: 'POST',
+        data: {
+            "id" : 1000,
+            "VendorCode" : VendorCode,
+            "Name" : Name,
+            "Category" : Category,
+            "CategoryName" : CategoryName,
+            "Price" : Price,
+            "Description" : Description,
+            "ShortDescription" : ShortDescription,
+            "Image" : Image,
+            "Properties" : Properties
+        },
+        success : function(res) {
+            alert('Настройки прайса сохранены');
+        },
+        error : function(){
+            alert('Не удалось сохранить настройки, блядь')
+        }
+    });
+});
+
+
+
+
+
+
+

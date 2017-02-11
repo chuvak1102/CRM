@@ -16,10 +16,13 @@ class DefaultController extends Controller
      */
     public function indexAction(){
 
-        $menu = $this->getDoctrine()->getRepository('EnterpriseBundle:Category')
-            ->findBy(array('static' => true));
+        $sRepo = $this->getDoctrine()->getRepository('EnterpriseBundle:Category');
+        $rootCats = $sRepo->findBy(array(
+            'lvl' => 0,
+            'static' => 0
+        ));
 
-        return $this->render(':default:index.html.twig', array('menu' => $menu));
+        return $this->render(':default:index.html.twig', array('catalog' => $rootCats));
 
     }
 

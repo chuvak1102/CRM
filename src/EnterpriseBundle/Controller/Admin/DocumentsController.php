@@ -57,41 +57,73 @@ class DocumentsController extends Controller
     }
 
     /**
-     * @Route("/save-setting")
+     * @Route("/catalogprepare")
      */
-    function saveSettingsAction(Request $request){
+    function sitePriceSettingsAction(Request $request){
+
+        if($request->isXmlHttpRequest()){
+            $fileLoader = $this->get('file_uploader');
+            $file = $_FILES['file'];
+            $name = $fileLoader->save($file);
+            $objReader = PHPExcel_IOFactory::createReader('Excel2007');
+            $phpExcelObject = $objReader->load($name);
+
+            $letterColumn = $phpExcelObject->setActiveSheetIndex(0)->getHighestColumn();
+            $integerColumn = PHPExcel_Cell::columnIndexFromString($letterColumn);
+
+            for($i = 0; $i < $integerColumn; $i++){
+                $fields[] = $i.$phpExcelObject
+                        ->setActiveSheetIndex(0)
+                        ->getCellByColumnAndRow($i,1)
+                        ->getValue();
+            }
+
+            if(!empty($fields)){
+                return new JsonResponse(array('fields' => $fields));
+            } else {
+                return new JsonResponse(array('fields' => null));
+            }
+
+        } else {
+            throw new \Exception('ajax');
+        }
+    }
+
+    /**
+     * @Route("/save-settings")
+     */
+    function savePriceSettingsAction(Request $request){
+
+        $em = $this->getDoctrine()->getManager();
+
+        $exist = $this->getDoctrine()->getRepository('EnterpriseBundle:SellerSettings')
+            ->findOneBy(array('seller_id' => $request->get('id')));
+
+        if($exist)
+        $em->remove($exist);
 
         $settings = new SellerSettings;
+        $settings->setSellerId($request->get('id'));
+        $settings->setVendorCode($request->get('VendorCode'));
+        $settings->setName($request->get('Name'));
+        $settings->setCategory($request->get('Category'));
+        $settings->setCategoryName($request->get('CategoryName'));
+        $settings->setPrice($request->get('Price'));
+        $settings->setDescription($request->get('Description'));
+        $settings->setShortDescription($request->get('ShortDescription'));
+        $settings->setImage($request->get('Image'));
 
-        if(!empty($request->get('id')))
-            $settings->setSellerId($request->get('id'));
-        if(!empty($request->get('VendorCode')))
-            $settings->setVendorCode($request->get('VendorCode'));
-        if(!empty($request->get('Name')))
-            $settings->setName($request->get('Name'));
-        if(!empty($request->get('Category')))
-            $settings->setCategory($request->get('Category'));
-        if(!empty($request->get('CategoryName')))
-            $settings->setCategoryName($request->get('CategoryName'));
-        if(!empty($request->get('Price')))
-            $settings->setPrice($request->get('Price'));
-        if(!empty($request->get('Description')))
-            $settings->setDescription($request->get('Description'));
-        if(!empty($request->get('shortDescription')))
-            $settings->setShortDescription($request->get('shortDescription'));
-        if(!empty($request->get('Image')))
-            $settings->setImage($request->get('Image'));
-
-        if(!empty($request->get('Properties')))
-        foreach($request->get('Properties') as $columnNum){
-            $set[] = $columnNum;
+        if(!empty($request->get('Properties'))){
+            foreach($request->get('Properties') as $columnNum){
+                $set[] = $columnNum;
+            }
         }
 
         if(!empty($set)){
             $settings->setAdvanced($set);
         }
 
-        $em = $this->getDoctrine()->getManager();
+
         $em->persist($settings);
         $em->flush();
 
@@ -101,7 +133,7 @@ class DocumentsController extends Controller
     /**
      * @Route("/excelprepare")
      */
-    function savePriceSettingsAction(Request $request){
+    function preparePriceSettingsAction(Request $request){
 
         if($request->isXmlHttpRequest()){
         $fileLoader = $this->get('file_uploader');
@@ -137,8 +169,9 @@ class DocumentsController extends Controller
      */
     function parseCSVAction(Seller $seller, Request $request){
 
-        $fileLoader = $this->get('file_uploader');
-        $name = $fileLoader->save($_FILES['file']);
+        $file = $this->get('file_uploader')->save($_FILES['file']);
+        $helpers = $this->get('helpers');
+        $helpers->toUTF8($file);
 
         $fields = $this->getDoctrine()->getRepository('EnterpriseBundle:SellerSettings')
             ->findOneBy(array(
@@ -154,9 +187,7 @@ class DocumentsController extends Controller
         $shortDescription = $fields->getShortDescription();
         $image = $fields->getImage();
 
-        file_put_contents($name, iconv("WINDOWS-1251", "UTF-8", file_get_contents($name)));
-
-        $csvFile = fopen($name, "r");
+        $csvFile = fopen($file, "r");
         while (($line = fgetcsv($csvFile, 0, ";")) !== false) {
 
             foreach($fields->getAdvanced() as $cell){
@@ -192,7 +223,7 @@ class DocumentsController extends Controller
     /**
      * @Route("/addtoshop")
      */
-    function addToShopAction(Request $request){
+    function addToShopAction(){
 
         $file = $this->get('file_uploader')->save($_FILES['file']);
         $helpers = $this->get('helpers');
@@ -200,7 +231,7 @@ class DocumentsController extends Controller
 
         $fields = $this->getDoctrine()->getRepository('EnterpriseBundle:SellerSettings')
             ->findOneBy(array(
-                'seller_id' => 5
+                'seller_id' => 1000
             ));
 
         $category = $fields->getCategory();
@@ -224,7 +255,10 @@ class DocumentsController extends Controller
             $product = new Catalog();
             $product->setCategory(
                 $this->createCategories(
-                    $line[$category], $line[$categoryName]
+                    $line[$category],
+                    $line[$categoryName],
+                    $line[$description],
+                    $line[$image]
                 ));
             $product->setCategoryName($line[$categoryName]);
             $product->setVendorCode($line[$vendor]);
@@ -250,7 +284,7 @@ class DocumentsController extends Controller
         return new JsonResponse(array('created' => 'ok'));
     }
 
-    function createCategories($categoryPath, $categoryName){
+    function createCategories($categoryPath, $categoryName, $description, $image){
 
         $cRepo = $this->getDoctrine()->getRepository('EnterpriseBundle:Category');
         $em = $this->getDoctrine()->getManager();
@@ -275,6 +309,8 @@ class DocumentsController extends Controller
                 $category->setTitle($catList[$i]);
                 if($i == count($catList) - 1){
                     $category->setCanonical($catName);
+                    $category->setDescription($description);
+                    $category->setImage($image);
                 }
                 $em->persist($category);
                 $em->flush();
@@ -300,6 +336,8 @@ class DocumentsController extends Controller
                 } else {
                     if(count($catList) == 1){
                         $existCat->setCanonical($name[$i]);
+                        $existCat->setDescription($description);
+                        $existCat->setImage($image);
                         $em->persist($existCat);
                         $em->flush();
                     }

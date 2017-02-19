@@ -23,8 +23,6 @@ use PHPExcel_Cell;
 class DocumentsController extends Controller
 {
 
-
-
     private function getCurrUser()
     {
         return $this->get('security.context')
@@ -127,7 +125,7 @@ class DocumentsController extends Controller
         $em->persist($settings);
         $em->flush();
 
-        return new JsonResponse(array('success' => true));
+        return $this->redirectToRoute('enterprise_admin_documents_index');
     }
 
     /**
@@ -216,7 +214,7 @@ class DocumentsController extends Controller
 
         fclose($csvFile);
         unset($csvFile);
-        return new JsonResponse(array('created' => 'ok'));
+        return $this->redirectToRoute('enterprise_admin_documents_index');
     }
 
 
@@ -255,7 +253,7 @@ class DocumentsController extends Controller
             $product = new Catalog();
             $product->setCategory(
                 $this->createCategories(
-                    $line[$category],
+                    $helpers->stringToUrl($line[$category]),
                     $line[$categoryName],
                     $line[$description],
                     $line[$image]
@@ -263,7 +261,7 @@ class DocumentsController extends Controller
             $product->setCategoryName($line[$categoryName]);
             $product->setVendorCode($line[$vendor]);
             $product->setName($line[$itemName]);
-            $product->setAlias($helpers->stringToUrl($line[$itemName]));
+            $product->setAlias($helpers->stringToAlias($line[$itemName]));
             $product->setPrice($line[$price]);
             $product->setDescription($line[$description]);
             $product->setShortDescription($line[$shortDescription]);
@@ -281,7 +279,7 @@ class DocumentsController extends Controller
 
         fclose($csvFile);
         unset($csvFile);
-        return new JsonResponse(array('created' => 'ok'));
+        return $this->redirectToRoute('enterprise_admin_documents_index');
     }
 
     function createCategories($categoryPath, $categoryName, $description, $image){

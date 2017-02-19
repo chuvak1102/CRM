@@ -21,8 +21,9 @@ $('.parse').click(function(e){
             data: window.form,
             processData: false,
             contentType: false,
-            success : function(){
+            success : function(response){
                 window.form = '';
+                $('#content').empty().html(response);
                 alert("Продукты сохранены в базу");
             },
             error : function(response){
@@ -111,8 +112,9 @@ $('.save_setting').click(function(){
             "Image" : Image,
             "Properties" : Properties
         },
-        success : function(res) {
+        success : function(response) {
             alert('Настройки прайса сохранены');
+            $('#content').empty().html(response);
         },
         error : function(){
             alert('Не удалось сохранить настройки, блядь')
@@ -130,8 +132,9 @@ $('#to_site').click(function(e){
             data: window.form,
             processData: false,
             contentType: false,
-            success : function(){
+            success : function(response){
                 alert("Продукты сохранены в базу");
+                $('#content').empty().html(response);
             },
             error : function(response){
                 alert("Ошибка, ошибка!!");
@@ -147,7 +150,6 @@ $('#to_site').click(function(e){
 $('#prepare').click(function(e){
 
     var fieldsArea = $(this).parent().find('.fields');
-    console.log(fieldsArea);
 
     if(window.form){
         $.ajax({
@@ -184,42 +186,49 @@ $('#prepare').click(function(e){
 
 $('#save').click(function(){
 
-    var VendorCode = parseInt($('#pVendorCode .field').html());
-    var Name = parseInt($('#pName .field').html());
-    var Category = parseInt($('#pCategory .field').html());
-    var CategoryName = parseInt($('#pCategoryName .field').html());
-    var Price = parseInt($('#pPrice .field').html());
-    var Description = parseInt($('#pDescription .field').html());
-    var ShortDescription = parseInt($('#pShortDescription .field').html());
-    var Image = parseInt($('#pImage .field').html());
-    var Prop = $('#pProperties .field');
-    var Properties = [];
-    for(var i = 0; i < Prop.length; i++){
-        var single = parseInt($(Prop[i]).html());
-        Properties.push(single);
-    }
-    $.ajax({
-        url: '/admin/documents/save-settings',
-        type: 'POST',
-        data: {
-            "id" : 1000,
-            "VendorCode" : VendorCode,
-            "Name" : Name,
-            "Category" : Category,
-            "CategoryName" : CategoryName,
-            "Price" : Price,
-            "Description" : Description,
-            "ShortDescription" : ShortDescription,
-            "Image" : Image,
-            "Properties" : Properties
-        },
-        success : function(res) {
-            alert('Настройки прайса сохранены');
-        },
-        error : function(){
-            alert('Не удалось сохранить настройки, блядь')
+    if(window.form){
+        var VendorCode = parseInt($('#pVendorCode .field').html());
+        var Name = parseInt($('#pName .field').html());
+        var Category = parseInt($('#pCategory .field').html());
+        var CategoryName = parseInt($('#pCategoryName .field').html());
+        var Price = parseInt($('#pPrice .field').html());
+        var Description = parseInt($('#pDescription .field').html());
+        var ShortDescription = parseInt($('#pShortDescription .field').html());
+        var Image = parseInt($('#pImage .field').html());
+        var Prop = $('#pProperties .field');
+        var Properties = [];
+        for(var i = 0; i < Prop.length; i++){
+            var single = parseInt($(Prop[i]).html());
+            Properties.push(single);
         }
-    });
+        $.ajax({
+            url: '/admin/documents/save-settings',
+            type: 'POST',
+            data: {
+                "id" : 1000,
+                "VendorCode" : VendorCode,
+                "Name" : Name,
+                "Category" : Category,
+                "CategoryName" : CategoryName,
+                "Price" : Price,
+                "Description" : Description,
+                "ShortDescription" : ShortDescription,
+                "Image" : Image,
+                "Properties" : Properties
+            },
+            success : function(response) {
+                $('#content').empty().html(response);
+                alert('Настройки прайса сохранены');
+            },
+            error : function(){
+                alert('Не удалось сохранить настройки, блядь')
+            }
+        });
+    } else {
+        alert('Файл не выбран!')
+    }
+
+
 });
 
 

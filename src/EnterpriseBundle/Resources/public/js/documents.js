@@ -10,6 +10,7 @@ $('input[type="file"]').on("change", function (e){
     reader.readAsDataURL(file);
     formdata.append("file", file);
     window.form = formdata;
+    console.log(window.form);
 });
 
 $('.parse').click(function(e){

@@ -65,7 +65,7 @@ $('#constructor_page').click(function(e){
 
 $('#delivery_page').click(function(e){
     $.ajax({
-        url: "/admin/delivery",
+        url: "/admin/order",
         success: function(response){
             expand(response);
         }

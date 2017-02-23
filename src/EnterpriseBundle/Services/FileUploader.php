@@ -4,7 +4,7 @@ namespace EnterpriseBundle\Services;
 class FileUploader {
 
     protected $root = '/var/www/';
-    protected $maxsize = '10mb'; //(int) kb, gb, mb
+    protected $maxsize = '50mb'; //(int) kb, gb, mb
     protected $allowed = ['rar','zip','doc','docx', 'mp3', 'xls','xlsx', 'csv', 'jpg', 'png', 'gif', 'jpeg', 'txt'];
     protected $path = array(
         'rar' => 'files/documents/',

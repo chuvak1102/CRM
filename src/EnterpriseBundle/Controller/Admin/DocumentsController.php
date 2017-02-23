@@ -177,7 +177,7 @@ class DocumentsController extends Controller
             ));
 
         $em = $this->getDoctrine()->getManager();
-
+        $vendor = $fields->getVendorCode();
         $category = $fields->getCategory();
         $itemName = $fields->getName();
         $price = $fields->getPrice();
@@ -196,6 +196,7 @@ class DocumentsController extends Controller
             $product = new SellerProduct;
             $product->setSeller($seller);
             $product->setCategory($line[$category]);
+            $product->setVendorCode($line[$vendor]);
             $product->setName($line[$itemName]);
             $product->setPrice($line[$price]);
             $product->setDescription($line[$description]);

@@ -1279,12 +1279,14 @@ html, body {
 }
 
 .documents_page .site_price .add_to_site {
-    float: left;
+    float: right;
     height: 21px;
-    width: auto;
+    width: 102px;
     padding: 5px;
-    line-height: 8px;
+    line-height: 10px;
     font-weight: bold;
+    margin-left: 62px;
+    font-size: 12px;
 }
 
 .documents_page .site_price input {
@@ -1385,4 +1387,59 @@ html, body {
     border: 1px solid #767676;
     color: #767676;
     font-size: 14px;
+}
+
+/* ORDER PAGE */
+
+.row_order {
+    border-left: 3px solid #fff;
+    /*border-bottom: 1px solid #fff;*/
+}
+
+.row_order:hover {
+    border-left: 3px solid rgb(255, 41, 9);
+    background-color: #f3f3f3;
+}
+
+.row_order .info {
+    display: none;
+}
+
+.row_order .info tr:first-child {
+    background-color: rgba(0, 169, 255, 0.36);
+}
+
+.hover:hover {
+    background-color: #9aff97;
+    cursor: pointer;
+}
+
+.red {
+    background-color: rgb(255, 189, 146);
+}
+
+.green {
+    background-color: rgb(179, 255, 141);
+}
+
+.order_table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+.order_table img {
+    max-width: 50px;
+}
+
+.order_table td{
+    text-align: center;
+    border: 1px solid #50506d;
+    font-size: 14px;
+    padding: 5px 0;
+    cursor: pointer;
+}
+
+.tr_color {
+    background-color: rgba(0, 136, 204, 0.41);
 }

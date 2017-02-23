@@ -1,3 +1,9 @@
-/**
- * Created by DAN on 03.12.2016.
- */
+$('td').click(function(e){
+    $(e.target)
+        .parent()
+        .parent()
+        .parent()
+        .parent()
+        .find('.info')
+        .slideToggle(300);
+});

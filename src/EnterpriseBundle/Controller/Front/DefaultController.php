@@ -36,15 +36,20 @@ class DefaultController extends Controller
      */
     public function staticAction(Request $request){
 
-        if ($this->get('templating')->exists(':default:'.$request->get('path').'.html.twig') ) {
+        $page = $request->get('path');
+//        if($page == 'catalog'){
+//            $page = 'category';
+//        }
+
+        if ($this->get('templating')->exists(':default:'.$page.'.html.twig') ) {
             $sRepo = $this->getDoctrine()->getRepository('EnterpriseBundle:Category');
-            $static = $sRepo->findBy(array('title' => $request->get('path')));
+            $static = $sRepo->findBy(array('title' => $page));
             $rootCats = $sRepo->findBy(array(
                 'lvl' => 0,
                 'static' => 0
             ));
 
-            return $this->render(':default:'.$request->get('path').'.html.twig', array(
+            return $this->render(':default:'.$page.'.html.twig', array(
                 'breadcrumbs' => $static,
                 'category' => $rootCats,
                 'products' => null

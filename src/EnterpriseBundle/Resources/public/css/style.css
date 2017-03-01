@@ -1409,6 +1409,10 @@ html, body {
     background-color: rgba(0, 169, 255, 0.36);
 }
 
+.row_order .info .analog tr:first-child {
+    background-color: rgb(189, 198, 191);
+}
+
 .hover:hover {
     background-color: #9aff97;
     cursor: pointer;
@@ -1420,6 +1424,10 @@ html, body {
 
 .green {
     background-color: rgb(179, 255, 141);
+}
+
+.grey {
+    background-color: rgb(189, 198, 191);
 }
 
 .order_table {
@@ -1442,4 +1450,24 @@ html, body {
 
 .tr_color {
     background-color: rgba(0, 136, 204, 0.41);
+}
+
+.selected {
+    background-color: rgb(179, 255, 141);
+}
+
+.save_order {
+    height: 40px;
+    background-color: #55677d;
+    color: #fff;
+    text-align: center;
+    line-height: 40px;
+    font-size: 14px;
+    transition: all 0.5s;
+}
+
+.save_order:hover {
+    background-color: #fff;
+    color: #55677d;
+    cursor: pointer;
 }

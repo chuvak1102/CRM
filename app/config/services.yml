@@ -49,3 +49,6 @@ services:
 
     helpers:
         class: EnterpriseBundle\Services\Helpers
+
+    pagination:
+        class: EnterpriseBundle\Services\Pagination

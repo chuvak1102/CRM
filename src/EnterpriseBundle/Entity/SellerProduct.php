@@ -3,11 +3,13 @@ namespace EnterpriseBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\ORM\Mapping\Table;
+use Doctrine\ORM\Mapping\Index;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="dc_seller_product")
- * @ORM\Entity(repositoryClass="EnterpriseBundle\Repository\SellerRepository")
+ * @ORM\Entity(repositoryClass="EnterpriseBundle\Repository\SellerProductRepository")
  */
 class SellerProduct {
 

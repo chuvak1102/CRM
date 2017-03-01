@@ -16,4 +16,18 @@ class SellerRepository extends EntityRepository {
             )
             ->getResult();
     }
+
+    public function getAnalogs($productName){
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT s.name
+                 FROM EnterpriseBundle:SellerProduct s
+                 WHERE MATCH (s.name)
+                 AGAINST (:name)
+                 LIMIT 10
+                '
+            )
+            ->setParameter('name', $productName)
+            ->getResult();
+    }
 }

@@ -151,7 +151,10 @@ class DefaultController extends Controller
      */
     public function settingsAction(Request $request){
         if($request->isXmlHttpRequest()){
-            return $this->render('EnterpriseBundle:Default:settings.html.twig');
+            $str = 'http://www.inspiritcompany.ru/userfiles/shop_cat_images/btm009fle.jpg,http://www.inspiritcompany.ru/userfiles/shop_cat_images/btm009fle_1.jpg';
+            $delimiter = strpos($str, ',');
+            $res = substr($str, 0, $delimiter);
+            return $this->render('EnterpriseBundle:Default:settings.html.twig', array('string' => $res));
         } else {
             throw new \Exception('Get the fuck out of here...');
         }

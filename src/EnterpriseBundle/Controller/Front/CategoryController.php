@@ -15,36 +15,44 @@ class CategoryController extends Controller
 {
 
     /**
-     *
+     * @Route("/{path}/page{num}/", requirements={"path" = "[a-z\/\-0-9]+", "num" = "[\d]+"})
      */
-    public function createAction(Request $request)
-    {
+    public function paginateAction(Request $request){
 
-        $em = $this->getDoctrine()->getManager();
+        $count = 30;
+        $page = intval($request->get('num'));
+        $path = 'category/'.$request->get('path');
+        $pathArray = explode('/', $request->get('path'));
+        $start = $page * $count - $count;
+        $end = $page * $count;
 
-        $sub = new Category();
-        $sub->setTitle('sub');
+        $pCount = $this->getDoctrine()->getRepository('EnterpriseBundle:Catalog')
+            ->createQueryBuilder('u')
+            ->select('count(u.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+        $pagesCount = ceil($pCount/$count);
+        for($i = 1; $i <= $pagesCount; $i++){
+            $pagination[] = $path.'/page'.$i.'/';
+        }
 
-        $sub1 = new Category();
-        $sub1->setTitle('sub1');
-        $sub1->setParent($sub);
+        $cRepo = $this->getDoctrine()->getRepository('EnterpriseBundle:Category');
+        $lastCatInRoute = $cRepo->findOneBy(array('title' => $pathArray[count($pathArray) - 1]));
+        $allCatRoutes = $cRepo->getPath($lastCatInRoute);
 
-        $sub2 = new Category();
-        $sub2->setTitle('sub2');
-        $sub2->setParent($sub1);
+        $products = $this->getDoctrine()->getRepository('EnterpriseBundle:Catalog')
+            ->createQueryBuilder('p')
+            ->setFirstResult($start)
+            ->setMaxResults($end)
+            ->getQuery()
+            ->getResult();
 
-        $sub3 = new Category();
-        $sub3->setTitle('sub3');
-        $sub3->setParent($sub2);
-
-        $em->persist($sub);
-        $em->persist($sub1);
-        $em->persist($sub2);
-        $em->persist($sub3);
-
-        $em->flush();
-
-        return new Response('created');
+        return $this->render(':default:pagination.html.twig', array(
+            'products' => $products,
+            'breadcrumbs' => $allCatRoutes,
+            'pagination' => $pagination,
+            'current' => $page
+        ));
     }
 
     /**
@@ -62,11 +70,16 @@ class CategoryController extends Controller
 
         if(!$lastCatInRoute){
             $lastCatInRoute = $cRepo->findOneBy(array('title' => $path[count($path) - 2]));
+
+            if(!$lastCatInRoute){
+                return $this->render(':default:404.html.twig');
+            }
+
             $allCatRoutes = $cRepo->getPath($lastCatInRoute);
 
             $product = $pRepo->findOneBy(array('alias' => $path[count($path) - 1]));
             if($product){
-                $products = $product->getCategory()->getProducts();
+
                 return $this->render(':default:product.html.twig', array(
                     'product' => $product,
                     'breadcrumbs' => $allCatRoutes
@@ -74,7 +87,6 @@ class CategoryController extends Controller
             } else {
                 return $this->render(':default:404.html.twig');
             }
-
         }
 
         $allCatRoutes = $cRepo->getPath($lastCatInRoute);
@@ -82,8 +94,6 @@ class CategoryController extends Controller
         foreach($allCatRoutes as $a){
             $route = $route.$a->getTitle();
         }
-
-        $x = 0;
 
         if(strcmp($route, $requestRoute) === 0){
 

@@ -201,7 +201,7 @@ class DocumentsController extends Controller
             $product->setPrice($line[$price]);
             $product->setDescription($line[$description]);
             $product->setShortDescription($line[$shortDescription]);
-            $product->setImage($line[$image]);
+            $product->setImage($helpers->oneImageFromMany($line[$image]));
             $product->setAdvanced($advanced);
 
             $em->persist($product);
@@ -230,7 +230,7 @@ class DocumentsController extends Controller
 
         $fields = $this->getDoctrine()->getRepository('EnterpriseBundle:SellerSettings')
             ->findOneBy(array(
-                'seller_id' => 1000
+                'seller_id' => 15
             ));
 
         $category = $fields->getCategory();

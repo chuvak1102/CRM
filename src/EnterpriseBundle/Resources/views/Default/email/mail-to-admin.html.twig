@@ -1,0 +1,5 @@
+<h1>Новый заказ от магазина polshishki.com:</h1>
+{% for i in order %}
+    <h1>Артикул - {{ i.vendor }}</h1>
+    <h1>Количество - {{ i.count }}</h1>
+{% endfor %}

@@ -1,0 +1,100 @@
+{% extends 'EnterpriseBundle:Default:template.html.twig' %}
+{% block content %}
+    <div class="order_page index">
+        <div class="orders">
+            <div class="row row_order">
+                <table class="order_table tr_color">
+                    <tr>
+                        <td>Номер заказа</td>
+                        <td>Имя покупателя</td>
+                        <td>Телефон</td>
+                        <td>Тип доставки</td>
+                        <td>Тип оплаты</td>
+                        <td>Комментарий</td>
+                        <td>Цена заказа</td>
+                        <td>Дата заказа</td>
+                        <td>Статус заказа</td>
+                    </tr>
+                </table>
+            </div>
+            {% for i in orders %}
+            <div class="row row_order">
+                <table class="order_table">
+                    <tr>
+                        <td class="order_single">{{ i.order.orderId }}</td>
+                        <td>{{ i.order.name }}</td>
+                        <td>{{ i.order.phone }}</td>
+                        <td>{{ i.order.deliveryType }}</td>
+                        <td>{{ i.order.payType }}</td>
+                        <td>{{ i.order.comment }}</td>
+                        <td>{{ i.order.price }}</td>
+                        <td>{{ i.order.created | date('d m Y h:i') }}</td>
+                        {% if i.order.complete == false%}
+                            <td class="red" id="{{ i.order.orderId }}">Новыйн</td>
+                        {% else %}
+                            <td class="green" id="{{ i.order.orderId }}">Завершен</td>
+                        {% endif %}
+                    </tr>
+                </table>
+
+                <div class="info">
+                    <table class="order_table">
+                        <tr>
+                            <td>Id</td>
+                            <td>Артикул</td>
+                            <td>Поставщик</td>
+                            <td colspan="2">Название</td>
+                            <td>Цена за штуку</td>
+                            <td>Количество</td>
+                            <td>Игото</td>
+                            <td>Изображение</td>
+                        </tr>
+                    </table>
+                    {% for p in i.products %}
+                        <div class="product_single">
+                            <table class="order_table">
+                                <tr>
+                                    <td>{{ p.item.id }}</td>
+                                    <td>{{ p.item.vendorCode }}</td>
+                                    <td>-</td>
+                                    <td colspan="2">{{ p.item.name }}</td>
+                                    <td>{{ p.item.price }}</td>
+                                    <td>{{ p.count }}</td>
+                                    <td>{{ p.count * p.item.price }}</td>
+                                    <td><img src="{{ p.item.image }}" alt=""></td>
+                                </tr>
+                            </table>
+                            <div class="analog">
+                                <table class="order_table grey">
+                                {% for a in p.analogs %}
+                                    <tr>
+                                        <td>{{ a.0.id }}</td>
+                                        <td class="vendor">{{ a.0.vendorCode }}</td>
+                                        <td>{{ a.0.seller.getName }}</td>
+                                        <td colspan="2">{{ a.0.name }}</td>
+                                        <td>{{ a.0.price }}</td>
+                                        <td class="product_count">{{ p.count }}</td>
+                                        <td class="hover">Выбрать</td>
+                                        <td><img src="{{ a.0.image }}" alt=""></td>
+                                    </tr>
+                                {% endfor %}
+                                </table>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <div class="save_order">Отправить заказ</div>
+                </div>
+            </div>
+
+            {% endfor %}
+        </div>
+    </div>
+
+{#{{ dump() }}#}
+{% endblock %}
+{% block script %}
+    {{ parent() }}
+    {% javascripts '@EnterpriseBundle/Resources/public/js/delivery.js' %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}

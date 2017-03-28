@@ -85,6 +85,9 @@ fos_user:
     db_driver: orm # other valid values are 'mongodb' and 'couchdb'
     firewall_name: main
     user_class: EnterpriseBundle\Entity\Users
+    from_email:
+        address: 123
+        sender_name: 123
     registration:
         form:
             type: DCUserBundle\Form\RegistrationType

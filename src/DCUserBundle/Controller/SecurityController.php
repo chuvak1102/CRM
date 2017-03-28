@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace DcUserBundle\Controller;
+namespace DCUserBundle\Controller;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use FOS\UserBundle\Controller\RegistrationController as BaseController;
